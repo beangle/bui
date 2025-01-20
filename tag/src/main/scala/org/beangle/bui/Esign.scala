@@ -27,6 +27,13 @@ class Esign(context: ComponentContext) extends AbstractTextBean(context) {
   override def evaluateParams(): Unit = {
     super.evaluateParams()
     val f = findAncestor(classOf[Form])
-    f.addCheck(s"sign.generate().then(function(res){ document.getElementById('${this.id}').value = res}).catch(function(err){alert(err)});")
+    f.removeRequire(this.id)
+    if (null != f) {
+      f.addCheck(s"document.getElementById('${this.id}').value = esign_${this.id}.generate();")
+      //move check not blank after generate
+      if ("true".equals(required)) {
+        f.addCheck(s"jQuery('#${this.id}').require().match('notBlank');")
+      }
+    }
   }
 }

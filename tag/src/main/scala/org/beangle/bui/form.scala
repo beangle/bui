@@ -82,6 +82,10 @@ class Form(context: ComponentContext) extends ActionClosingUIBean(context) {
    */
   def addRequire(id: String): Unit = this.addCheck(id, "require().match('notBlank')")
 
+  def removeRequire(id: String): Unit = {
+    elementChecks.remove(id)
+  }
+
   def addCheck(id: String, check: String): Unit = {
     elementChecks.get(id) match {
       case Some(sb) => sb.append('.').append(check)

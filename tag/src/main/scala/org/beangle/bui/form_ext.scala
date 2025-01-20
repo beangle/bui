@@ -17,10 +17,10 @@
 
 package org.beangle.bui
 
+import org.beangle.bui.Radio.{DefaultItemMap, DefaultKeys}
 import org.beangle.commons.bean.Properties
 import org.beangle.commons.lang.{Numbers, Strings}
 import org.beangle.template.api.{ComponentContext, UIBean}
-import org.beangle.bui.Radio.{DefaultItemMap, DefaultKeys}
 
 import scala.jdk.javaapi.CollectionConverters.asScala
 
@@ -319,8 +319,8 @@ class Startend(context: ComponentContext) extends UIBean(context) {
 
       if (labelArray.length == 1) {
         val containTime = format.contains("HH:mm")
-        dates(0).title = dates(0).title + getText(if (containTime) "common.beginAt" else "common.beginOn")
-        dates(1).title = dates(1).title + getText(if (containTime) "common.endAt" else "common.endOn")
+        dates(0).title = getText(if (containTime) "common.beginAt" else "common.beginOn")
+        dates(1).title = getText(if (containTime) "common.endAt" else "common.endOn")
       }
     }
   }

@@ -1,5 +1,5 @@
 <li>[#if tag.label??]<label for="${tag.id}" class="title">[#if (tag.required!"")=="true"]<em class="required">*</em>[/#if]${tag.label}:</label>[/#if]
-  <input type="hidden" id="${tag.id}" name="${tag.name}"/>
+  <input type="hidden" id="${tag.id}" name="${tag.name}" title="${tag.title!}"/>
   <table border="0">
     <tr>
       <td>
@@ -61,9 +61,9 @@ canvas {
         this.height = document.body.clientHeight;
       }
       this.canvas.style.width = this.width + "px"
-      //var realw = parseFloat(window.getComputedStyle(canvas).width);
+      var realw = parseFloat(window.getComputedStyle(canvas).width);
       this.canvas.style.height = this.ratio() * realw + "px";
-      //this.canvasTxt = this.canvas.getContext('2d');
+      this.canvasTxt = this.canvas.getContext('2d');
       //this.canvasTxt.scale(1 * this.sratio, 1 * this.sratio);
       //this.sratio = realw / this.width;
       //this.canvasTxt.scale(1 / this.sratio, 1 / this.sratio);
@@ -205,11 +205,7 @@ canvas {
       var imgFormat = options && options.format ? options.format: this.format;
       var imgQuality = options && options.quality ? options.quality: this.quality;
       var esign = this;
-      return new Promise(function(resolve, reject) {
-        if (!esign.hasDrew) {
-          reject("Warning: Not Signned!");
-          return;
-        }
+      if (esign.hasDrew) {
         var resImgData = esign.canvasTxt.getImageData(0, 0, esign.canvas.width, esign.canvas.height);
         esign.canvasTxt.globalCompositeOperation = "destination-over";
         esign.canvasTxt.fillStyle = esign.myBg();
@@ -233,18 +229,20 @@ canvas {
           resultImg = crop_canvas.toDataURL(imgFormat, imgQuality);
           crop_canvas = null;
         }
-        resolve(resultImg);
-      });
+        return resultImg;
+      }else{
+        return "";
+      }
     }
   }
   var options = {}
   options.lineWidth = ${tag.lineWidth};
   options.width = ${tag.width};
   options.height = ${tag.height};
-  var sign = new Esign(document.getElementById("${tag.id}_canvas"),options);
-  sign.mount();
+  var esign_${tag.id} = new Esign(document.getElementById("${tag.id}_canvas"),options);
+  esign_${tag.id}.mount();
   document.getElementById('${tag.id}_clear').onclick = function(e){
-    sign.clear();
+    esign_${tag.id}.clear();
     document.getElementById('${tag.id}').value="";
   }
 </script>
