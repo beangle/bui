@@ -27,8 +27,10 @@ val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.10.3"
 val beangle_template = "org.beangle.template" % "beangle-template" % "0.1.23"
 
 lazy val root = (project in file("."))
-  .settings()
-  .aggregate(tag, bootstrap)
+  .settings(
+    name := "beangle-bui",
+    common
+  ).aggregate(tag, bootstrap)
 
 lazy val tag = (project in file("tag"))
   .settings(
