@@ -18,7 +18,7 @@
 package org.beangle.bui
 
 import org.beangle.commons.lang.Strings
-import org.beangle.template.api.{ClosingUIBean, ComponentContext, UIBean}
+import org.beangle.template.api.{ComponentContext, UIBean}
 import org.beangle.webmvc.context.ActionContext
 import org.beangle.webmvc.support.MessageSupport
 
@@ -55,9 +55,9 @@ class Messages(context: ComponentContext) extends UIBean(context) {
 class Dialog(context: ComponentContext) extends ActionClosingUIBean(context) {
   var title: String = _
   var href: String = _
-  var modal = "false"
+  var modal = "true"
 
   override def evaluateParams(): Unit = {
-    this.href = render(href)
+    this.generateIdIfEmpty()
   }
 }

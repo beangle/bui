@@ -1,4 +1,4 @@
-<table class="table [#if tag.cssClass??] ${tag.cssClass}[/#if]" id="${tag.id}" ${tag.parameterString}>
+<table class="table [#if tag.cssClass??] ${tag.cssClass}[#else] table-sm[/#if]" id="${tag.id}" ${tag.parameterString}>
 [#if tag.cols?size>0]
 <thead>
   <tr>
