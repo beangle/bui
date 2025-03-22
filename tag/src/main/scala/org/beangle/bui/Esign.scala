@@ -24,6 +24,12 @@ class Esign(context: ComponentContext) extends AbstractTextBean(context) {
   var height: String = "300"
   var width: String = "800"
 
+  /** 是否允许本地图片文件 */
+  var enableLocalFile: String = "true"
+
+  /** 缺省签名的地址 */
+  var remoteHref: String = _
+
   override def evaluateParams(): Unit = {
     super.evaluateParams()
     val f = findAncestor(classOf[Form])

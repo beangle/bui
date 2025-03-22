@@ -9,7 +9,18 @@
     </tr>
     <tr>
       <td style="text-align:right;">
-       <a id="${tag.id}_clear" class="btn btn-sm btn-outline-primary">清空，重新签名</a>
+       [#if tag.enableLocalFile=="true"]
+       <div class="custom-file" style="text-align:left;width:200px;">
+         <input type="file" class="custom-file-input" id="validatedCustomFile"  name="sign" title="签名" onchange="esign_${tag.id}.loadFile(event.target.files[0]);">
+         <label class="custom-file-label" for="validatedCustomFile">选择签名图片</label>
+       </div>
+       [/#if]
+       [#if tag.remoteHref??]
+       <button onclick="esign_${tag.id}.loadURL('${tag.remoteHref}');return false;" class="btn btn-sm btn-outline-primary" style="margin-top: 11px;height: 37px;">
+        <img src="${tag.remoteHref}" height="20" width="40"/>&nbsp;默认
+       </button>
+       [/#if]
+       <button id="${tag.id}_clear" class="btn btn-sm btn-outline-primary" style="margin-top: 11px;height: 37px;">清空</button>
       </td>
     </tr>
   </table>
@@ -36,7 +47,7 @@ canvas {
     this.hasDrew = false;
     this.resultImg = '';
     this.points = [];
-    this.canvasTxt = null;
+    this.canvasCtx = null;
     this.startX = 0;
     this.startY = 0;
     this.isDrawing = false;
@@ -63,10 +74,10 @@ canvas {
       this.canvas.style.width = this.width + "px"
       var realw = parseFloat(window.getComputedStyle(canvas).width);
       this.canvas.style.height = this.ratio() * realw + "px";
-      this.canvasTxt = this.canvas.getContext('2d');
-      //this.canvasTxt.scale(1 * this.sratio, 1 * this.sratio);
+      this.canvasCtx = this.canvas.getContext('2d');
+      //this.canvasCtx.scale(1 * this.sratio, 1 * this.sratio);
       //this.sratio = realw / this.width;
-      //this.canvasTxt.scale(1 / this.sratio, 1 / this.sratio);
+      //this.canvasCtx.scale(1 / this.sratio, 1 / this.sratio);
     }
     //mounting
     this.mount = function(){
@@ -137,44 +148,44 @@ canvas {
     this.drawStart = function(loc) {
       this.startX = loc.x;
       this.startY = loc.y;
-      this.canvasTxt.beginPath();
-      this.canvasTxt.moveTo(this.startX, this.startY);
-      this.canvasTxt.lineTo(loc.x, loc.y);
-      this.canvasTxt.lineCap = 'round';
-      this.canvasTxt.lineJoin = 'round';
-      this.canvasTxt.lineWidth = this.lineWidth * this.sratio;
-      this.canvasTxt.stroke();
-      this.canvasTxt.closePath();
+      this.canvasCtx.beginPath();
+      this.canvasCtx.moveTo(this.startX, this.startY);
+      this.canvasCtx.lineTo(loc.x, loc.y);
+      this.canvasCtx.lineCap = 'round';
+      this.canvasCtx.lineJoin = 'round';
+      this.canvasCtx.lineWidth = this.lineWidth * this.sratio;
+      this.canvasCtx.stroke();
+      this.canvasCtx.closePath();
       this.points.push(loc);
     }
 
     this.drawMove = function (loc) {
-      this.canvasTxt.beginPath();
-      this.canvasTxt.moveTo(this.startX, this.startY);
-      this.canvasTxt.lineTo(loc.x, loc.y);
-      this.canvasTxt.strokeStyle = this.lineColor;
-      this.canvasTxt.lineWidth = this.lineWidth * this.sratio
-      this.canvasTxt.lineCap = 'round';
-      this.canvasTxt.lineJoin = 'round';
-      this.canvasTxt.stroke();
-      this.canvasTxt.closePath();
+      this.canvasCtx.beginPath();
+      this.canvasCtx.moveTo(this.startX, this.startY);
+      this.canvasCtx.lineTo(loc.x, loc.y);
+      this.canvasCtx.strokeStyle = this.lineColor;
+      this.canvasCtx.lineWidth = this.lineWidth * this.sratio
+      this.canvasCtx.lineCap = 'round';
+      this.canvasCtx.lineJoin = 'round';
+      this.canvasCtx.stroke();
+      this.canvasCtx.closePath();
       this.startY = loc.y;
       this.startX = loc.x;
       this.points.push(loc);
     }
     this.drawEnd = function (loc) {
-      this.canvasTxt.beginPath();
-      this.canvasTxt.moveTo(this.startX, this.startY);
-      this.canvasTxt.lineTo(loc.x, loc.y);
-      this.canvasTxt.lineCap = 'round';
-      this.canvasTxt.lineJoin = 'round';
-      this.canvasTxt.stroke();
-      this.canvasTxt.closePath();
+      this.canvasCtx.beginPath();
+      this.canvasCtx.moveTo(this.startX, this.startY);
+      this.canvasCtx.lineTo(loc.x, loc.y);
+      this.canvasCtx.lineCap = 'round';
+      this.canvasCtx.lineJoin = 'round';
+      this.canvasCtx.stroke();
+      this.canvasCtx.closePath();
       this.points.push(loc);
       this.points.push({x: -1, y: -1});
     }
     this.clear = function () {
-      this.canvasTxt.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      this.canvasCtx.clearRect(0, 0, this.canvas.width, this.canvas.height)
       if (this.isClearBgColor) {
         this.canvas.style.background = 'rgba(255, 255, 255, 0)'
       }
@@ -201,27 +212,63 @@ canvas {
       btnY++;
       return [topX, topY, btmX, btnY];
     }
+
+    this.loadImage = function(img){
+      var esign = this;
+      esign.clear();
+      img.onload = function() {
+        var minScale = 1.0;
+        if(this.height > esign.height){
+          var scale = esign.height / this.height;
+          minScale = scale;
+        }
+        if(this.width > esign.width){
+          var scale = esign.width / this.width;
+          if(minScale > scale){
+            minScale = scale;
+          }
+        }
+        esign.canvasCtx.drawImage(img, 0, 0,this.width*minScale,this.height*minScale);
+      }
+    }
+
+    this.loadFile = function(file){
+      var windowURL = window.URL || window.webkitURL;
+      var src = windowURL.createObjectURL(file);
+      var img = new Image();
+      img.src=src;
+      this.loadImage(img);
+      windowURL.revokeObjectURL(src);
+    }
+
+    this.loadURL=function(url){
+      var windowURL = window.URL || window.webkitURL;
+      var img = new Image();
+      img.src=url;
+      this.loadImage(img);
+    }
+
     this.generate = function(options) {
       var imgFormat = options && options.format ? options.format: this.format;
       var imgQuality = options && options.quality ? options.quality: this.quality;
       var esign = this;
       if (esign.hasDrew) {
-        var resImgData = esign.canvasTxt.getImageData(0, 0, esign.canvas.width, esign.canvas.height);
-        esign.canvasTxt.globalCompositeOperation = "destination-over";
-        esign.canvasTxt.fillStyle = esign.myBg();
-        esign.canvasTxt.fillRect(0,0,esign.canvas.width ,esign.canvas.height);
+        var resImgData = esign.canvasCtx.getImageData(0, 0, esign.canvas.width, esign.canvas.height);
+        esign.canvasCtx.globalCompositeOperation = "destination-over";
+        esign.canvasCtx.fillStyle = esign.myBg();
+        esign.canvasCtx.fillRect(0,0,esign.canvas.width ,esign.canvas.height);
         esign.resultImg = esign.canvas.toDataURL(imgFormat, imgQuality);
         var resultImg = esign.resultImg;
-        esign.canvasTxt.clearRect(0, 0, esign.canvas.width ,esign.canvas.height);
-        esign.canvasTxt.putImageData(resImgData, 0, 0);
-        esign.canvasTxt.globalCompositeOperation = "source-over";
+        esign.canvasCtx.clearRect(0, 0, esign.canvas.width ,esign.canvas.height);
+        esign.canvasCtx.putImageData(resImgData, 0, 0);
+        esign.canvasCtx.globalCompositeOperation = "source-over";
         if (esign.isCrop) {
           var crop_area = getCropArea(esign,resImgData.data);
           var crop_canvas = document.createElement('canvas');
           var crop_ctx = crop_canvas.getContext('2d');
           crop_canvas.width = crop_area[2] - crop_area[0];
           crop_canvas.height = crop_area[3] - crop_area[1];
-          var crop_imgData = esign.canvasTxt.getImageData(...crop_area);
+          var crop_imgData = esign.canvasCtx.getImageData(...crop_area);
           crop_ctx.globalCompositeOperation = "destination-over"
           crop_ctx.putImageData(crop_imgData, 0, 0);
           crop_ctx.fillStyle = esign.myBg();
@@ -244,5 +291,6 @@ canvas {
   document.getElementById('${tag.id}_clear').onclick = function(e){
     esign_${tag.id}.clear();
     document.getElementById('${tag.id}').value="";
+    return false;
   }
 </script>
