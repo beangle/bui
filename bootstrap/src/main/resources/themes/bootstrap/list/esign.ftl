@@ -229,6 +229,7 @@ canvas {
           }
         }
         esign.canvasCtx.drawImage(img, 0, 0,this.width*minScale,this.height*minScale);
+        esign.hasDrew = true;
       }
     }
 
@@ -236,6 +237,7 @@ canvas {
       var windowURL = window.URL || window.webkitURL;
       var src = windowURL.createObjectURL(file);
       var img = new Image();
+      img.crossOrigin = "";
       img.src=src;
       this.loadImage(img);
       windowURL.revokeObjectURL(src);
@@ -244,6 +246,7 @@ canvas {
     this.loadURL=function(url){
       var windowURL = window.URL || window.webkitURL;
       var img = new Image();
+      img.crossOrigin = "";
       img.src=url;
       this.loadImage(img);
     }
