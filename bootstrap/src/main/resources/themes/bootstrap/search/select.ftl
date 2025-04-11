@@ -25,7 +25,7 @@ ${tag.body}
       [/#if]
     [/#list]
 [/#if]
-</select>[#if tag.comment??]<label class="comment">${tag.comment}</label>[/#if]
+</select>[#if tag.comment??]<label class="comment text-muted">${tag.comment}</label>[/#if]
 [#if localChosen || tag.href??]
 <script type="text/javascript">
 [#if localChosen]

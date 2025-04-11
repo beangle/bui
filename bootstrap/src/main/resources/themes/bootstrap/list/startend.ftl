@@ -8,5 +8,5 @@
 class="Wdate" onFocus="WdatePicker({dateFmt:'${tag.format}'[#if date.maxDate??],maxDate:'${date.maxDate}'[/#if][#if date.minDate??],minDate:'${date.minDate}'[/#if]})" name="${date.name}" value="${(date.value)?if_exists}" ${tag.parameterString}/>
 [#if (date.required!"")=="true"]<em class="required"><sup>*</sup></em>[/#if]
 [/#list]
-[#if tag.comment??]<label class="comment">${tag.comment}</label>[/#if]
+[#if tag.comment??]<label class="comment text-muted">${tag.comment}</label>[/#if]
 </li>

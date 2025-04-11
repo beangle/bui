@@ -8,5 +8,5 @@
 [/#list]
 </div>
 <span id="${tag.id}" style="display:none"></span>
-[#if tag.comment??]<label class="comment">${tag.comment}</label>[/#if]
+[#if tag.comment??]<label class="comment text-muted">${tag.comment}</label>[/#if]
 </li>

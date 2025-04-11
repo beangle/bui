@@ -3,21 +3,21 @@
   <table border="0">
     <tr>
       <td>
-       <canvas id="${tag.id}_canvas"></canvas>
-       [#if tag.comment??]<label class="comment">${tag.comment}</label>[/#if]
+       <canvas id="${tag.id}_canvas" class="esign-canvas"></canvas>
+       [#if tag.comment??]<label class="comment text-muted">${tag.comment}</label>[/#if]
       </td>
     </tr>
     <tr>
       <td style="text-align:right;">
        [#if tag.enableLocalFile=="true"]
        <div class="custom-file" style="text-align:left;width:200px;">
-         <input type="file" class="custom-file-input" id="validatedCustomFile"  name="sign" title="签名" onchange="esign_${tag.id}.loadFile(event.target.files[0]);">
+         <input type="file" class="custom-file-input" id="validatedCustomFile"  name="sign_local_file" title="签名" onchange="esign_${tag.id}.loadFile(event.target.files[0]);">
          <label class="custom-file-label" for="validatedCustomFile">选择签名图片</label>
        </div>
        [/#if]
        [#if tag.remoteHref??]
-       <button onclick="esign_${tag.id}.loadURL('${tag.remoteHref}');return false;" class="btn btn-sm btn-outline-primary" style="margin-top: 11px;height: 37px;">
-        <img src="${tag.remoteHref}" height="20" width="40"/>&nbsp;默认
+       <button onclick="esign_${tag.id}.loadURL('${tag.remoteHref}');return false;" class="btn btn-sm btn-outline-primary" style="margin-top: 11px;height: 37px;display:none;">
+         <img src="${tag.remoteHref}" height="20" width="40" onload="displayImageButton(this)"/>&nbsp;默认
        </button>
        [/#if]
        <button id="${tag.id}_clear" class="btn btn-sm btn-outline-primary" style="margin-top: 11px;height: 37px;">清空</button>
@@ -26,7 +26,7 @@
   </table>
 </li>
 <style>
-canvas {
+.esign-canvas {
   border: 2px solid #ccc;
 }
 </style>
@@ -65,8 +65,8 @@ canvas {
     this.resizeHandler = function(){
       this.width = this.options.width || 800;
       this.height = this.options.height || 300;
-      if(this.width > document.body.clientWidth){
-        this.width = document.body.clientWidth;
+      if(this.width > document.body.clientWidth - 100){
+        this.width = document.body.clientWidth - 100;
       }
       if(this.height > document.body.clientHeight){
         this.height = document.body.clientHeight;
@@ -75,9 +75,8 @@ canvas {
       var realw = parseFloat(window.getComputedStyle(canvas).width);
       this.canvas.style.height = this.ratio() * realw + "px";
       this.canvasCtx = this.canvas.getContext('2d');
-      //this.canvasCtx.scale(1 * this.sratio, 1 * this.sratio);
-      //this.sratio = realw / this.width;
-      //this.canvasCtx.scale(1 / this.sratio, 1 / this.sratio);
+      this.sratio = realw / this.width;
+      this.canvasCtx.scale(1 * this.sratio, 1 * this.sratio);
     }
     //mounting
     this.mount = function(){
@@ -285,6 +284,7 @@ canvas {
       }
     }
   }
+
   var options = {}
   options.lineWidth = ${tag.lineWidth};
   options.width = ${tag.width};
@@ -295,5 +295,8 @@ canvas {
     esign_${tag.id}.clear();
     document.getElementById('${tag.id}').value="";
     return false;
+  }
+  function displayImageButton(img){
+    img.parentElement.style.display='';
   }
 </script>
