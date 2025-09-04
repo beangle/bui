@@ -1,14 +1,14 @@
 [#if tag.option??][#assign optionTemplate=tag.option?interpret][/#if]
 [#assign remoteSearch=tag.remoteSearch/]
 [#assign localChosen=false]
-[#if tag.items?? && ((tag.items?size > (tag.chosenMin?number-1)) || tag.multiple??)]
+[#if tag.items?? && tag.items?size>0 && ((tag.items?size > (tag.chosenMin?number-1)) || tag.multiple??)]
   [#assign localChosen=true]
 [/#if]
 [#if tag.label??]<label for="${tag.id}" class="title">[#if (tag.required!"")=="true"]<em class="required">*</em>[/#if]${tag.label}:</label>[/#if]
 [#assign selected=false/]
 <select id="${tag.id}" [#if tag.title??]title="${tag.title}"[/#if] name="${tag.name}" [#if tag.width??]width="${tag.width}"[/#if] [#if tag.multiple??]multiple="${tag.multiple}"[/#if]${tag.parameterString}>
 ${tag.body}
-[#if tag.empty??][#if localChosen|| remoteSearch]<option value=""></option>[#else]<option value="">${tag.empty}</option>[/#if][/#if][#rt/]
+[#if tag.empty??][#if localChosen || remoteSearch]<option value=""></option>[#else]<option value="">${tag.empty}</option>[/#if][/#if][#rt/]
 [#if tag.items??]
 [#list tag.items as item][#assign optionText][#if tag.option??][@optionTemplate/][#else]${item[tag.valueName]!}[/#if][/#assign]
 <option value="${item[tag.keyName]}" title="${optionText!}" [#if (!selected || tag.multiple??) && tag.isSelected(item)] selected="selected" [#assign selected=true/][/#if]>${optionText!}</option>
@@ -34,21 +34,17 @@ ${tag.body}
 [#elseif tag.href??]
   [#if remoteSearch]
   beangle.load(["chosen","bui-ajaxchosen"],function(){
-    $("#${tag.id}").ajaxchosen(
-    { method:"GET",
-      url:"${tag.href}"
-    },
-    function (obj){
+    $("#${tag.id}").ajaxchosen({method:"GET", url:"${tag.href}"},
+      function (obj){
       var is_restapi = Array.isArray(obj);
       var datas = is_restapi?obj:obj.data;
       var items=[]
       jQuery.each(datas,function(i,data){
         var title = is_restapi?data.${tag.valueName}:data.attributes.${tag.valueName}
-        items.push({"value":data['${tag.keyName}'],"text":title});
+        items.push({"value":data.${tag.keyName},"text":title});
        });
        return items;
-    },{placeholder_text_single:"${tag.empty!'...'}",search_contains:true,allow_single_deselect:true[#if tag.width??],width:'${tag.width}'[/#if]}
-    );
+    },{placeholder_text_single:"${tag.empty!'...'}",search_contains:true,allow_single_deselect:true[#if tag.width??],width:'${tag.width}'[/#if]});
   });
   [#else]
   jQuery.ajax({
