@@ -23,8 +23,8 @@ ThisBuild / developers := List(
 ThisBuild / description := "The Beangle BUI Library"
 ThisBuild / homepage := Some(url("https://beangle.github.io/bui/index.html"))
 
-val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.10.7"
-val beangle_template = "org.beangle.template" % "beangle-template" % "0.1.27"
+val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.11.0"
+val beangle_template = "org.beangle.template" % "beangle-template" % "0.1.28"
 
 lazy val root = (project in file("."))
   .settings(
@@ -49,7 +49,7 @@ lazy val bootstrap = (project in file("bootstrap"))
 lazy val asset = (project in file("static"))
   .settings(
     name := "beangle-bui-static",
-    version := "0.6.4",
+    version := "0.6.6",
     common
   )
 

@@ -82,8 +82,5 @@
 
     <bundle name="pdfjs" version="1.9.426"/>
 
-    <bundle name="kalendae" version="1.0.2">
-      <module name="kalendae" js="js/kalendae.standalone.js" css="css/kalendae.css"/>
-    </bundle>
   </static>
 </mvc>
