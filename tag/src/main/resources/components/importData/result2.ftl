@@ -4,8 +4,8 @@
   [@b.toolbar title="数据导入结果"]
       bar.addClose();
   [/@]
-  <div class="alert [#if importer.fail>0]alert-warning[#else]alert-success[/#if]" role="alert">
-  成功导入：${(importer.success)!}[#if importer.fail>0]&nbsp;失败：${importer.fail}[/#if]
+  <div class="alert [#if importResult.failed>0]alert-warning[#else]alert-success[/#if]" role="alert">
+  成功导入：${(importResult.successed)!}[#if importResult.failed>0]&nbsp;失败：${importResult.failed}[/#if]
   </div>
   [#if (importResult.errs)?? && importResult.errs?size > 0]
   [@b.grid items=importResult.errs var="message" sortable="false" style="border:0.5px solid #006CB2"]

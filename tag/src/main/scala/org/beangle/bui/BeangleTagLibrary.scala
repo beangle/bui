@@ -30,9 +30,8 @@ import org.beangle.webmvc.view.tag.AbstractTagLibrary
 @description("beangle webui 标签库")
 class BeangleTagLibrary extends AbstractTagLibrary {
 
-  override def models(): AnyRef = {
-    val ctx = ActionContext.current
-    new BeangleModels(getComponentContext(), ctx.request)
+  override def models: AnyRef = {
+    new BeangleModels(componentContext, ActionContext.current.request)
   }
 
 }
