@@ -24,6 +24,9 @@ import org.beangle.template.api.{ClosingUIBean, ComponentContext, IterableUIBean
 import org.beangle.webmvc.context.ActionContext
 
 import java.io.Writer
+import java.time.*
+import java.time.format.DateTimeFormatter
+import java.time.temporal.Temporal
 import java.util as ju
 import scala.jdk.javaapi.CollectionConverters.asScala
 
@@ -138,11 +141,28 @@ object Grid {
       getValue(row.curObj, property) match {
         case null => ""
         case s: String => s
-        case Some(d) => if (null == d) "" else d.toString
+        case Some(d) => if (null == d) "" else convertToString(d)
         case None => ""
         case a: Iterable[_] => if (a.isEmpty) "" else a.toString
-        case any: Any => any.toString
+        case any: Any => convertToString(any)
       }
+    }
+
+    private def convertToString(v: Any): String = {
+      v match {
+        case t: Temporal =>
+          t match {
+            case i: Instant => i.atZone(ZoneId.systemDefault).withNano(0).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ')
+            case d: LocalDateTime => d.withNano(0).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ')
+            case z: ZonedDateTime => z.withNano(0).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ')
+            case o: OffsetDateTime => o.withNano(0).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ')
+            case l: LocalTime => l.withNano(0).toString
+            case _ => t.toString
+          }
+        case n: Number => v.toString
+        case _ => v.toString
+      }
+
     }
 
     def title_=(title: String): Unit = {
