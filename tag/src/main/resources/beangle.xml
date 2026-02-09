@@ -6,7 +6,7 @@
 
   <template>
     <freemarker>
-      <props default="true">
+      <settings>
         <prop key="default_encoding">UTF-8</prop>
         <prop key="number_format">0.##</prop>
         <prop key="date_format">yyyy-MM-dd</prop>
@@ -15,7 +15,7 @@
         <prop key="template_update_delay">30m</prop>
         <prop key="localized_lookup">false</prop>
         <prop key="tag_syntax">square_bracket</prop>
-      </props>
+      </settings>
     </freemarker>
   </template>
 </beangle>
