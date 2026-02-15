@@ -2,7 +2,7 @@ import org.beangle.parent.Dependencies.*
 import org.beangle.parent.Settings.*
 
 ThisBuild / organization := "org.beangle.bui"
-ThisBuild / version := "0.1.5-SNAPSHOT"
+ThisBuild / version := "0.1.5"
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
@@ -23,7 +23,7 @@ ThisBuild / developers := List(
 ThisBuild / description := "The Beangle BUI Library"
 ThisBuild / homepage := Some(url("https://beangle.github.io/bui/index.html"))
 
-val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.13.3"
+val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.14.0"
 val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.5"
 
 lazy val root = (project in file("."))
