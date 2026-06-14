@@ -15,15 +15,15 @@
     [#if tag.loadui]
     <link rel="icon" href="data:;base64,=">
     <base href="${b.base}/"/>
-    ${b.static.load(["requirejs","jquery","beangle","bui"])}
+    ${b.static.load(["jquery","beangle","bui"])}
     <script type="text/javascript">
-    beangle.register("${b.static_base}/",{
+    beangle.amd.register("${b.static_base}/",{
       [#assign contents = b.static.module_contents/]
       [#list contents?keys?sort as k]
         "${k}":${contents[k]}[#if k_has_next],[/#if]
       [/#list]
     });
-    bg.load(["jquery-form","bootstrap","font-awesome","adminlte"])
+    beangle.require(["jquery-form","bootstrap","font-awesome","adminlte"])
     </script>
     [#else]
     ${b.static.load(["jquery","beangle"])}

@@ -5,6 +5,6 @@ ${tag.label}:</label>[/#if]<input type="password" id="${tag.id}" [#if tag.title?
 [#if tag.comment??]<label class="comment text-muted">${tag.comment}</label>[/#if]</li>
 [#if tag.showStrength='true']
 <script>
-beangle.load(["jquery-pstrength"],function() { jQuery('#${tag.id}').pstrength({minChar:${tag.minlength}}); });
+beangle.require(["jquery-pstrength"],function() { jQuery('#${tag.id}').pstrength({minChar:${tag.minlength}}); });
 </script>
 [/#if]

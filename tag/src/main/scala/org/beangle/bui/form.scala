@@ -135,6 +135,7 @@ class Submit(context: ComponentContext) extends ActionClosingUIBean(context) {
   var target: String = _
 
   override def evaluateParams(): Unit = {
+    generateIdIfEmpty()
     if (null == formId) {
       val f = findAncestor(classOf[Form])
       if (null != f) formId = f.id

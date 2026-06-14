@@ -27,7 +27,7 @@
 <tr>
 [#list tag.cols as cln]
 <th [#if !filterable && cln.width??] width="${cln.width}"[/#if] [#if cln.type??]class="grid-select-top" [#elseif tag.isSortable(cln)]class="grid-head-sortable" id="${cln.parameters['sort']!(tag.defaultSort(cln.property))}"[/#if]>[#t/]
-  [#if cln.type??][#if cln.type=="checkbox"]<input type="${cln.type}" name="${cln.boxname}box" onclick="bg.ui.grid.toggleAll(event)" title="${b.text('action.selectall')}"/>[/#if] [#t/]
+  [#if cln.type??][#if cln.type=="checkbox"]<input type="${cln.type}" name="${cln.boxname}box" class="grid-toggle-all" title="${b.text('action.selectall')}"/>[/#if] [#t/]
   [#else]${cln.title}[/#if][#t/]
 </th>
 [/#list]
@@ -47,7 +47,7 @@
 [/#if]
 </div>
 <script type="text/javascript">
-  page_${tag.id} = bg.page("${request.requestURI}","${tag.parameters['target']!""}");
+  var page_${tag.id} = bg.page("${request.requestURI}","${tag.parameters['target']!""}");
   page_${tag.id}.setTarget("${tag.parameters['target']!""}",'${tag.id}').action("${request.requestURI}").addParams('${b.paramstring}').orderBy("${Parameters['orderBy']!('null')}");
   bg.ui.grid.init('${tag.id}',page_${tag.id});
   [#if tag.hasbar]

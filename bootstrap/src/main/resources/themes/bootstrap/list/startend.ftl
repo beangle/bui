@@ -1,5 +1,5 @@
 [#ftl/]
-<script type="text/javascript">beangle.load(["my97"]);</script>
+<script type="text/javascript">beangle.require(["my97"]);</script>
 <li>
 [#if tag.label??]<label for="${tag.dates?first.id}" class="title">[#if (tag.required!"")?contains("true")]<em class="required">*</em>[/#if]${tag.label}:</label>[/#if]
 [#list tag.dates as date]

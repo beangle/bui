@@ -6,10 +6,6 @@
         <module name="jquery" js="jquery.min.js"/>
       </bundle>
 
-      <bundle name="requirejs" version="2.3.6">
-        <module name="requirejs" js="require.js"/>
-      </bundle>
-
       <!--org.webjars.bower:popper.js:1.16.0-->
       <bundle name="popper.js" version="1.16.0">
         <module name="popperjs" js="dist/umd/popper.js"/>
@@ -23,7 +19,7 @@
         <module name="adminlte" js="dist/js/adminlte.min.js" css="dist/css/adminlte.min.css"/>
       </bundle>
 
-      <bundle name="font-awesome" version="6.1.0">
+      <bundle name="font-awesome" version="7.2.0">
         <module name="font-awesome" css="css/all.min.css"/>
       </bundle>
 

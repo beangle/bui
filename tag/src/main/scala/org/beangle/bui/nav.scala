@@ -48,6 +48,7 @@ class Navitem(context: ComponentContext) extends ActionClosingUIBean(context) {
   var active = false
 
   override def evaluateParams(): Unit = {
+    generateIdIfEmpty()
     if (null != href) {
       this.href = render(this.href)
       if (!active) {
