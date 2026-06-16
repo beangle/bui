@@ -19,22 +19,26 @@ package org.beangle.bui
 
 import jakarta.servlet.http.HttpServletRequest
 import org.beangle.template.api.{ComponentContext, Tag}
+import org.beangle.webmvc.asset.Static
 import org.beangle.webmvc.dispatch.ActionUriRender
-import org.beangle.webmvc.view.Static
 import org.beangle.webmvc.view.tag.CoreModels
 
 class BeangleModels(context: ComponentContext, request: HttpServletRequest) extends CoreModels(context, request) {
 
+  private def findStatic: Static = {
+    context.services("static").asInstanceOf[Static]
+  }
+
   val static_base: String = {
-    Static.Default.base
+    findStatic.base
   }
 
   def static: Static = {
-    Static.Default
+    findStatic
   }
 
   def static_url(bundle: String, filename: String): String = {
-    Static.Default.url(bundle, filename)
+    findStatic.url(bundle, filename)
   }
 
   def script(bundle: String, fileName: String): String = {
@@ -42,11 +46,11 @@ class BeangleModels(context: ComponentContext, request: HttpServletRequest) exte
   }
 
   def script(bundle: String, fileName: String, deferable: Boolean): String = {
-    Static.Default.script(bundle, fileName, deferable)
+    findStatic.script(bundle, fileName, deferable)
   }
 
   def css(bundle: String, fileName: String): String = {
-    Static.Default.css(bundle, fileName)
+    findStatic.css(bundle, fileName)
   }
 
   val rest = new Rest(this.context.services("uriRender").asInstanceOf[ActionUriRender])
