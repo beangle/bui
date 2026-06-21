@@ -5,7 +5,9 @@
       <bundle name="jquery" version="3.6.0">
         <module name="jquery" js="jquery.min.js"/>
       </bundle>
-
+      <bundle name="wujie" version="2.1.0">
+        <module name="wujie" js="index.js"/>
+      </bundle>
       <!--org.webjars.bower:popper.js:1.16.0-->
       <bundle name="popper.js" version="1.16.0">
         <module name="popperjs" js="dist/umd/popper.js"/>
@@ -13,10 +15,6 @@
 
       <bundle name="bootstrap" version="4.6.1">
         <module name="bootstrap" js="js/bootstrap.bundle.min.js" css="css/bootstrap.min.css"/>
-      </bundle>
-
-      <bundle name="AdminLTE" version="3.2.0">
-        <module name="adminlte" js="dist/js/adminlte.min.js" css="dist/css/adminlte.min.css"/>
       </bundle>
 
       <bundle name="font-awesome" version="7.2.0">
@@ -43,7 +41,7 @@
         <module name="jquery-ui" js="jquery-ui.min.js" css="jquery-ui.min.css"/>
       </bundle>
 
-      <bundle name="bui" version="0.6.7">
+      <bundle name="bui" version="0.7.1">
         <module name="beangle" js="js/beangle.js"/>
         <module name="bui" js="js/beangle-ui.js" css="css/beangle-ui.css"/>
         <module name="bui-ajaxchosen" js="js/beangle-ui-ajaxchosen.js" depends="chosen"/>

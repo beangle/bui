@@ -37,6 +37,9 @@ class Nav(context: ComponentContext) extends ClosingUIBean(context) {
 
   override def evaluateParams(): Unit = {
     addClass("nav")
+    if (null != cssClass && cssClass.contains("nav-tabs") && !cssClass.contains("nav-tabs-compact")) {
+      addClass("nav-tabs-compact")
+    }
     generateIdIfEmpty()
   }
 }

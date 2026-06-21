@@ -15,7 +15,7 @@
     [#if tag.loadui]
     <link rel="icon" href="data:;base64,=">
     <base href="${b.base}/"/>
-    ${b.static.load(["jquery","beangle","bui"])}
+    ${b.static.load(["jquery","bootstrap","beangle","bui"])}
     <script type="text/javascript">
     beangle.amd.register("${b.static_base}/",{
       [#assign contents = b.static.module_contents/]
@@ -23,7 +23,7 @@
         "${k}":${contents[k]}[#if k_has_next],[/#if]
       [/#list]
     });
-    beangle.require(["jquery-form","bootstrap","font-awesome","adminlte"])
+    beangle.require(["jquery-form","font-awesome"])
     </script>
     [#else]
     ${b.static.load(["jquery","beangle"])}
