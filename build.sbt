@@ -49,7 +49,7 @@ lazy val bootstrap = (project in file("bootstrap"))
 lazy val asset = (project in file("static"))
   .settings(
     name := "beangle-bui-static",
-    version := "0.6.7",
+    version := "0.7.2",
     common
   )
 
