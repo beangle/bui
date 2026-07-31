@@ -32,7 +32,7 @@ lazy val root = (project in file("."))
     name := "beangle-bui",
     common,
     publish / skip := true
-  ).aggregate(tag, bootstrap, asset)
+  ).aggregate(tag, bootstrap, static)
 
 lazy val tag = (project in file("tag"))
   .settings(
@@ -48,7 +48,7 @@ lazy val bootstrap = (project in file("bootstrap"))
     common
   ).dependsOn(tag)
 
-lazy val asset = (project in file("static"))
+lazy val static = (project in file("static"))
   .settings(
     name := "beangle-bui-static",
     common
