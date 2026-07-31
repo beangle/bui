@@ -1,27 +1,28 @@
 import org.beangle.parent.Dependencies.*
 import org.beangle.parent.Settings.*
 
-ThisBuild / organization := "org.beangle.bui"
-ThisBuild / version := "0.2.8-SNAPSHOT"
+organization := "org.beangle.bui"
+version := "0.8.5"
 
-ThisBuild / scmInfo := Some(
+scmInfo := Some(
   ScmInfo(
-    url("https://github.com/beangle/bui"),
+    uri("https://github.com/beangle/bui"),
     "scm:git@github.com:beangle/bui.git"
   )
 )
 
-ThisBuild / developers := List(
+developers := List(
   Developer(
     id = "chaostone",
     name = "Tihua Duan",
     email = "duantihua@gmail.com",
-    url = url("http://github.com/duantihua")
+    url = uri("http://github.com/duantihua")
   )
 )
 
-ThisBuild / description := "The Beangle BUI Library"
-ThisBuild / homepage := Some(url("https://beangle.github.io/bui/index.html"))
+description := "The Beangle BUI Library"
+homepage := Some(uri("https://beangle.github.io/bui/index.html"))
+resolvers += Resolver.mavenLocal
 
 val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.0"
 val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.8"
@@ -29,8 +30,9 @@ val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.8"
 lazy val root = (project in file("."))
   .settings(
     name := "beangle-bui",
-    common
-  ).aggregate(tag, bootstrap)
+    common,
+    publish / skip := true
+  ).aggregate(tag, bootstrap, asset)
 
 lazy val tag = (project in file("tag"))
   .settings(
@@ -49,8 +51,5 @@ lazy val bootstrap = (project in file("bootstrap"))
 lazy val asset = (project in file("static"))
   .settings(
     name := "beangle-bui-static",
-    version := "0.7.2",
     common
   )
-
-publish / skip := true

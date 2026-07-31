@@ -21,6 +21,7 @@
  * LGPL version 3.
  */
 :root{
+  /* 门户主题色板（可被 beangle.ui.theme / applyStoredTheme 覆盖） */
   --primary-color:#0076ff;
   --navbar-bg-color:#3c8dbc;
   --search-bg-color:#E1ECFF;
@@ -28,11 +29,39 @@
   --grid-border-color:#006CB2;
   --info-title-bg-color:#F5EDDB;
   --border-width-default:1px;
+
+  /* 语义表面色：组件尽量只用这组；深色模式优先改这里 */
+  --bui-body-bg: #f4f6f9;
+  --bui-surface-bg: #ffffff;
+  --bui-surface-2: #f8f9fa;
+  --bui-border-color: #dee2e6;
+  --bui-text-color: #495057;
+  --bui-text-muted: #6c757d;
+  --bui-zebra-odd: #ffffff;
+  --bui-zebra-even: #f9f9f9;
+  --bui-highlight-bg: #F9EDBE;
+  --bui-highlight-text: #000000;
+  --bui-link-color: var(--primary-color);
+  --bui-hover-bg: rgba(0, 0, 0, 0.04);
+  --bui-scrollbar: #cbd5e1;
+  --bui-search-bg: var(--search-bg-color);
+  --bui-gridbar-bg: var(--gridbar-bg-color);
+  --bui-panel-muted-bg: #e9f2f8;
+  --bui-info-table-bg: #EEEEEE;
+  --bui-focus-ring: var(--primary-color);
+  --grid-select-bg-color: #BFFFBF;
 }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: var(--bui-scrollbar) transparent;
+  background-color: var(--bui-body-bg);
+}
+
+/* html body 高于 Bootstrap reboot 的 body{background:#fff}，避免深色被盖回白色 */
+html body {
+  background-color: var(--bui-body-bg);
+  color: var(--bui-text-color);
 }
 
 .text-mini {
@@ -71,7 +100,7 @@ html {
 
 .timeline::before {
   border-radius: 0.25rem;
-  background-color: #dee2e6;
+  background-color: var(--bui-border-color);
   bottom: 0;
   content: "";
   left: 31px;
@@ -96,8 +125,8 @@ html {
 .timeline > div > .timeline-item {
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
-  background-color: #fff;
-  color: #495057;
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
   margin-left: 60px;
   margin-right: 15px;
   margin-top: 0;
@@ -106,15 +135,15 @@ html {
 }
 
 .timeline > div > .timeline-item > .time {
-  color: #999;
+  color: var(--bui-text-muted);
   float: right;
   font-size: 12px;
   padding: 10px;
 }
 
 .timeline > div > .timeline-item > .timeline-header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-  color: #495057;
+  border-bottom: 1px solid var(--bui-border-color);
+  color: var(--bui-text-color);
   font-size: 16px;
   line-height: 1.1;
   margin: 0;
@@ -152,7 +181,7 @@ html {
 .timeline > div > .fad,
 .timeline > div > .svg-inline--fa,
 .timeline > div > .ion {
-  background-color: #adb5bd;
+  background-color: var(--bui-text-muted);
   border-radius: 50%;
   font-size: 16px;
   height: 30px;
@@ -170,7 +199,7 @@ html {
 
 .timeline > .time-label > span {
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--bui-surface-bg);
   display: inline-block;
   font-weight: 600;
   padding: 5px;
@@ -178,12 +207,12 @@ html {
 
 .timeline-inverse > div > .timeline-item {
   box-shadow: none;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: var(--bui-surface-2);
+  border: 1px solid var(--bui-border-color);
 }
 
 .timeline-inverse > div > .timeline-item > .timeline-header {
-  border-bottom-color: #dee2e6;
+  border-bottom-color: var(--bui-border-color);
 }
 
 .border-1px {
@@ -242,13 +271,13 @@ html {
 }
 
 a {
-  color: var( --primary-color)
+  color: var(--bui-link-color);
 }
 /* grid */
 .grid {
   margin: 0px 0px 0px 0px;
   font-size: .875rem !important;
-  --grid-select-bg-color:#BFFFBF;
+  color: var(--bui-text-color);
 }
 
 .grid-caption {
@@ -288,11 +317,11 @@ a {
 }
 
 .grid-body tr:nth-of-type(even){
-  background-color: #f9f9f9;
+  background-color: var(--bui-zebra-even);
 }
 
 .grid-body tr:nth-of-type(odd){
-  background-color: white;
+  background-color: var(--bui-zebra-odd);
 }
 
 .grid-filter-submit {
@@ -306,7 +335,7 @@ a {
 
 .grid-select {
   text-align: center;
-  background-color: var(--search-bg-color);
+  background-color: var(--bui-search-bg);
 }
 
 .grid-select-top {
@@ -314,9 +343,9 @@ a {
 }
 
 .grid-head {
-  color: #000000;
+  color: var(--bui-text-color);
   letter-spacing: 0;
-  background-color: var(--gridbar-bg-color);
+  background-color: var(--bui-gridbar-bg);
 }
 
 .grid-head-icon {
@@ -339,7 +368,9 @@ a {
 }
 
 .grid-head input[type="text"] {
-  border: var(--border-width-default) solid gray;
+  border: var(--border-width-default) solid var(--bui-border-color);
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
   border-radius: .25rem;
   height: 1.4375rem;
 }
@@ -356,7 +387,7 @@ a {
 
 .grid-bar {
   height: 1.4375rem;
-  background-color: var(--gridbar-bg-color);
+  background-color: var(--bui-gridbar-bg);
   border: 0px solid var(--grid-border-color);
   font-size: 0.875rem !important;
   overflow-x: auto;
@@ -379,7 +410,7 @@ a {
   overflow-x: auto;
 }
 .pgbar-label {
-  background-color: #e9f2f8;
+  background-color: var(--bui-panel-muted-bg);
 }
 
 .pgbar-input-label {}
@@ -458,7 +489,8 @@ a {
   height: 21px;
   padding: 2px 3px 2px 3px;
   margin: 1px 0px 1px 10px;
-  background-color: #F9EDBE;
+  background-color: var(--bui-highlight-bg);
+  color: var(--bui-highlight-text);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -490,7 +522,8 @@ a {
 }
 
 .toolbar-item-selected {
-  background-color: #4791C5;
+  background-color: var(--primary-color, #4791C5);
+  color: #fff;
   float: left;
   padding: 2px 3px 2px 3px;
   cursor: pointer;
@@ -500,7 +533,8 @@ a {
 .toolbar-item-transfer {
   float: left;
   padding: 2px 3px 2px 3px;
-  background-color: #e9f2f8;
+  background-color: var(--bui-panel-muted-bg);
+  color: var(--bui-text-color);
   cursor: pointer;
   line-height: 100%;
 }
@@ -508,13 +542,14 @@ a {
 .toolbar-menu {
   margin-top: 1px;
   margin-left: 0px;
-  background-color: #e9f2f8;
+  background-color: var(--bui-panel-muted-bg);
+  color: var(--bui-text-color);
   display: none;
   position: absolute;
   z-index: 100;
   padding: 1px;
   overflow: visible;
-  border: solid 1px #4791C5;
+  border: solid 1px var(--grid-border-color);
   white-space: nowrap;
 }
 
@@ -524,7 +559,8 @@ a {
 }
 
 .toolbar-menuitem-transfer {
-  background-color: #FFFFFF;
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
   padding: 2px 3px 2px 3px;
   cursor: pointer;
 }
@@ -545,9 +581,9 @@ a {
 /* message */
 div.error,
 div.message {
-  background-color: #ECD83C;
+  background-color: var(--bui-highlight-bg);
   border: 0px solid #000;
-  color: #000000;
+  color: var(--bui-highlight-text);
   font-family: Arial, Helvetica, sans-serif;
   font-weight: normal;
   text-align: center;
@@ -574,17 +610,18 @@ span.fieldError {
 }
 div.message a {
   background: transparent;
-  color: #0000FF;
+  color: var(--bui-link-color);
 }
 
 div.message a:visited {
   background: transparent;
-  color: #0000FF;
+  color: var(--bui-link-color);
 }
 
 div.message a:hover {
   background: transparent;
-  color: #008000;
+  color: var(--primary-color);
+  filter: brightness(0.85);
 }
 
 div.message a:active {
@@ -609,7 +646,8 @@ div.message img.icon {
 
 .search-panel {
   border: 0px solid var(--grid-border-color);
-  background-color: var(--search-bg-color);
+  background-color: var(--bui-search-bg);
+  color: var(--bui-text-color);
   font-size: 0.875rem !important;
   width: 100%;
 }
@@ -652,7 +690,9 @@ div.search-footer .btn-sm {
 
 .search-item input[type="text"] {
   width: 6.25rem;
-  border: var(--border-width-default) solid gray;
+  border: var(--border-width-default) solid var(--bui-border-color);
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
   height: 1.5625rem;
   border-radius: .25rem;
   padding: 0rem .375rem;
@@ -660,8 +700,8 @@ div.search-footer .btn-sm {
 
 .search-item input:focus {
   outline: none !important;
-  border-color: #719ECE;
-  box-shadow: 0 0 10px #719ECE;
+  border-color: var(--bui-focus-ring);
+  box-shadow: 0 0 10px var(--bui-focus-ring);
 }
 
 .search-item select {
@@ -691,7 +731,8 @@ div.search-footer .btn-sm {
     width: calc(11rem - 1px);
     height: 23px;
     border: 0px solid;
-    background-color: var(--search-bg-color);
+    background-color: var(--bui-search-bg);
+    color: var(--bui-text-color);
     margin: 0px 0px 0px 0px;
     display: block;
     line-height: 100%;
@@ -707,23 +748,25 @@ table.infoTable {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  background-color: #EEEEEE;
+  background-color: var(--bui-info-table-bg);
+  color: var(--bui-text-color);
 }
 
 table.infoTable>tbody>tr>td {
-  border: var(--border-width-default) solid #FFFFFF;
+  border: var(--border-width-default) solid var(--bui-body-bg);
   overflow: hidden;
   word-wrap: break-word;
 }
 
 table.infoTable>thead>th {
-  background-color: var(--search-bg-color);
+  background-color: var(--bui-search-bg);
   height: 22px;
 }
 
 table.infoTable td.title {
   height: 22px;
   background-color: var(--info-title-bg-color);
+  color: var(--bui-text-color);
   padding-left: 2px;
   padding-right: 2px;
   text-align: right;
@@ -743,12 +786,12 @@ table.table-detail{
 table.table-detail td.title{
   padding: 0.2rem 0rem;
   text-align: right;
-  color: #6c757d !important;
+  color: var(--bui-text-muted) !important;
 }
 
 /*mini数据列表*/
 table.table-mini th{
-  color:#6c757d !important;
+  color: var(--bui-text-muted) !important;
   font-weight: normal;
 }
 table.table-mini{
@@ -770,7 +813,7 @@ table.settingTable td {
 }
 
 .ui-disabled {
-  color: #999999;
+  color: var(--bui-text-muted);
 }
 
 /*
@@ -837,7 +880,9 @@ input[type="password"],
 input[type="number"],
 input[type="email"],
 input[type="url"] {
-  border: var(--border-width-default) solid gray;
+  border: var(--border-width-default) solid var(--bui-border-color);
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
   height: 1.5625rem;
   width: 200px;
   border-radius: .25rem;
@@ -852,8 +897,8 @@ fieldset.listset li>select {
 
 fieldset.listset li>input:focus {
   outline: none !important;
-  border-color: #719ECE;
-  box-shadow: 0 0 10px #719ECE;
+  border-color: var(--bui-focus-ring);
+  box-shadow: 0 0 10px var(--bui-focus-ring);
 }
 
 .icon-action {
@@ -1005,10 +1050,10 @@ fieldset.listset li>input:focus {
   padding: 0.25rem 0.75rem 4px;
   margin-bottom: 0;
   border: none;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--bui-border-color);
   border-radius: 0;
   background: transparent;
-  color: #64748b;
+  color: var(--bui-text-muted);
   font-weight: 400;
   font-size: 0.875rem;
   transition: color 0.15s ease, border-color 0.15s ease;
@@ -1016,8 +1061,8 @@ fieldset.listset li>input:focus {
 
 .nav-tabs.nav-tabs-compact .nav-link:hover,
 .nav-tabs.nav-tabs-compact > li > a:hover {
-  border-bottom-color: #cbd5e1;
-  color: #334155;
+  border-bottom-color: var(--bui-scrollbar);
+  color: var(--bui-text-color);
   background: transparent;
 }
 
@@ -1042,12 +1087,44 @@ fieldset.listset li>input:focus {
   text-align: left;
 }
 
+/* Chosen webjar 硬编码白底/渐变：仅覆盖表面色，不改第三方包 */
+html .chosen-container-single .chosen-single,
+html .chosen-container-active.chosen-with-drop .chosen-single {
+  background: var(--bui-surface-bg) none;
+  border-color: var(--bui-border-color);
+  box-shadow: none;
+  color: var(--bui-text-color);
+}
+
+html .chosen-container-multi .chosen-choices {
+  background: var(--bui-surface-bg) none;
+  border-color: var(--bui-border-color);
+  box-shadow: none;
+}
+
+html .chosen-container-single .chosen-search input[type="text"] {
+  background-color: var(--bui-surface-bg);
+  border-color: var(--bui-border-color);
+  color: var(--bui-text-color);
+}
+
+html .chosen-container .chosen-drop {
+  background-color: var(--bui-surface-bg);
+  border-color: var(--bui-border-color);
+  color: var(--bui-text-color);
+}
+
+html .chosen-container .chosen-results li.highlighted {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
 .compact.table>tbody>tr>td {
   padding: 0.5rem;
   height: 35px;
   line-height: 1.42857;
   vertical-align: top;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid var(--bui-border-color);
 }
 .compact.alert {
   padding: 0.5rem 3.5rem 0.5rem 1rem;
@@ -1063,7 +1140,8 @@ div#topLoadingMessageZone {
   top: 0px;
   right: 0px;
   height: 20px;
-  background-color: #F9EDBE;
+  background-color: var(--bui-highlight-bg);
+  color: var(--bui-highlight-text);
   padding: 2px;
 }
 
@@ -1148,9 +1226,10 @@ div#topLoadingMessageZone {
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color: var(--bui-surface-bg);
+    color: var(--bui-text-color);
     background-clip: border-box;
-    border: 0 solid rgba(0, 0, 0, 0.125);
+    border: 0 solid var(--bui-border-color);
     border-radius: 0.25rem;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
     margin-bottom: 1rem;
@@ -1158,7 +1237,7 @@ div#topLoadingMessageZone {
 
 .card-header {
     background-color: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    border-bottom: 1px solid var(--bui-border-color);
     padding: 0.75rem 1.25rem;
     position: relative;
     border-top-left-radius: 0.25rem;
@@ -1194,7 +1273,7 @@ div#topLoadingMessageZone {
 
 .btn-tool {
     background-color: transparent;
-    color: #adb5bd;
+    color: var(--bui-text-muted);
     font-size: 0.875rem;
     margin: -0.75rem 0;
     padding: 0.25rem 0.5rem;
@@ -1202,7 +1281,7 @@ div#topLoadingMessageZone {
 
 .btn-group.show .btn-tool,
 .btn-tool:hover {
-    color: #495057;
+    color: var(--bui-text-color);
 }
 
 .btn-tool:focus,
@@ -1245,13 +1324,13 @@ div#topLoadingMessageZone {
 }
 
 .card-footer {
-    background-color: rgba(0, 0, 0, 0.03);
-    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: var(--bui-hover-bg);
+    border-top: 1px solid var(--bui-border-color);
     padding: 0.75rem 1.25rem;
 }
 
 .card.card-outline {
-    border-top: 3px solid #dee2e6;
+    border-top: 3px solid var(--bui-border-color);
 }
 
 .card-primary.card-outline {
@@ -1351,7 +1430,7 @@ div#topLoadingMessageZone {
 }
 
 .nav-pills .nav-link {
-  color: #6c757d;
+  color: var(--bui-text-muted);
 }
 
 /**span*/
@@ -1360,4 +1439,260 @@ div#topLoadingMessageZone {
   width: 100%;
   padding-right: 7.5px;
   padding-left: 7.5px;
+}
+
+
+/*
+ * 语义色桥接：Bootstrap / AdminLTE 常用面走变量，浅/深只换 :root 即可。
+ */
+html .wrapper,
+html .content-wrapper,
+html .content,
+html .ajax_container {
+  background-color: var(--bui-body-bg);
+  color: var(--bui-text-color);
+}
+
+.card,
+.modal-content,
+.dropdown-menu,
+.popover,
+.list-group-item,
+.jumbotron {
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
+  border-color: var(--bui-border-color);
+}
+
+.card-header,
+.card-footer,
+.modal-header,
+.modal-footer {
+  background-color: var(--bui-surface-2);
+  color: var(--bui-text-color);
+  border-color: var(--bui-border-color);
+}
+
+.table,
+.table td,
+.table th {
+  color: var(--bui-text-color);
+  border-color: var(--bui-border-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--bui-hover-bg);
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--bui-hover-bg);
+  color: var(--bui-text-color);
+}
+
+.form-control,
+.custom-select,
+.form-control-plaintext,
+.input-group-text,
+.custom-file-label,
+select.form-control,
+textarea.form-control {
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
+  border-color: var(--bui-border-color);
+}
+
+.form-control:focus,
+.custom-select:focus {
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
+  border-color: var(--primary-color);
+}
+
+.form-control::placeholder {
+  color: var(--bui-text-muted);
+  opacity: 1;
+}
+
+.btn-default,
+.btn-light,
+.btn-secondary {
+  background-color: var(--bui-surface-2);
+  border-color: var(--bui-border-color);
+  color: var(--bui-text-color);
+}
+
+.btn-outline-secondary {
+  color: var(--bui-text-muted);
+  border-color: var(--bui-border-color);
+  background-color: transparent;
+}
+
+.page-link {
+  background-color: var(--bui-surface-bg);
+  border-color: var(--bui-border-color);
+  color: var(--bui-text-color);
+}
+
+.page-item.disabled .page-link {
+  background-color: var(--bui-surface-2);
+  border-color: var(--bui-border-color);
+  color: var(--bui-text-muted);
+}
+
+.dropdown-item {
+  color: var(--bui-text-color);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--bui-hover-bg);
+  color: var(--bui-text-color);
+}
+
+.dropdown-divider,
+hr {
+  border-top-color: var(--bui-border-color);
+}
+
+.text-muted {
+  color: var(--bui-text-muted) !important;
+}
+
+.nav-tabs {
+  border-color: var(--bui-border-color);
+}
+
+.nav-tabs .nav-link {
+  color: var(--bui-text-muted);
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
+  border-color: var(--bui-border-color);
+}
+
+/*
+ * Dark mode：主要只覆盖语义变量（对齐侧栏 #343a40 / #3f474e）。
+ * 少数 Bootstrap 硬编码工具类仍需补丁。
+ */
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) {
+  color-scheme: dark;
+  --search-bg-color: #3f474e;
+  --gridbar-bg-color: #3f474e;
+  --grid-border-color: #4b545c;
+  --info-title-bg-color: #454d55;
+  --bui-body-bg: #343a40;
+  --bui-surface-bg: #3f474e;
+  --bui-surface-2: #454d55;
+  --bui-border-color: #4b545c;
+  --bui-text-color: #e9ecef;
+  --bui-text-muted: #adb5bd;
+  --bui-zebra-odd: #3f474e;
+  --bui-zebra-even: #343a40;
+  --bui-highlight-bg: #454d55;
+  --bui-highlight-text: #ffc107;
+  --bui-link-color: var(--primary-color);
+  --bui-hover-bg: rgba(255, 255, 255, 0.08);
+  --bui-scrollbar: #6c757d;
+  --bui-panel-muted-bg: #454d55;
+  --bui-info-table-bg: #3f474e;
+  --grid-select-bg-color: #1f4d2e;
+}
+
+/* 再次压过后加载的 Bootstrap/AdminLTE 白底 */
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) body,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .wrapper,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .content-wrapper,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .content,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .ajax_container {
+  background-color: var(--bui-body-bg) !important;
+  color: var(--bui-text-color);
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .bg-light,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .bg-white {
+  background-color: var(--bui-surface-bg) !important;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .text-dark,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .text-body {
+  color: var(--bui-text-color) !important;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .border,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .border-top,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .border-bottom,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .border-left,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .border-right {
+  border-color: var(--bui-border-color) !important;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  background-color: transparent;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-primary:hover,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-primary:focus,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-primary:not(:disabled):not(.disabled):active,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-primary.active {
+  color: #fff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-warning {
+  color: #ffc107;
+  border-color: #ffc107;
+  background-color: transparent;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-warning:hover,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-warning:focus {
+  color: #212529;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-success {
+  color: #75b798;
+  border-color: #75b798;
+  background-color: transparent;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-danger {
+  color: #ea868f;
+  border-color: #ea868f;
+  background-color: transparent;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-outline-info {
+  color: #6edff6;
+  border-color: #6edff6;
+  background-color: transparent;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .search-panel .btn-outline-primary,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .search-footer .btn-outline-primary {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .search-panel .btn-outline-warning,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .search-footer .btn-outline-warning {
+  background-color: rgba(255, 193, 7, 0.12);
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) fieldset.listset legend,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) fieldset.listset > ol > li {
+  background-image: none;
+  border-bottom: 1px solid var(--bui-border-color);
 }

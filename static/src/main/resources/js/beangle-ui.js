@@ -1250,6 +1250,256 @@
     }
   }
   bg.extend({'ui.tabletree':new TableTree()});
+
+  /**
+   * UI 偏好（与门户 ems-shell / @beangle/bui-vue 约定一致）：
+   * - localStorage beangle.ui.font-size → small|medium|large → html font-size
+   * - localStorage beangle.ui.theme-mode → light|dark → html data-theme / data-bs-theme
+   * 主题色板仍由 beangle.js 的 applyStoredTheme（beangle.ui.theme）处理。
+   */
+  (function (ui) {
+    var FONT_SIZE_KEY = "beangle.ui.font-size";
+    var THEME_MODE_KEY = "beangle.ui.theme-mode";
+    var FONT_SIZE_CSS = { small: "0.9286em", medium: "1em", large: "1.07143em" };
+    var FONT_SIZE_EVENT = "beangle.ui.fontsizechange";
+    var THEME_MODE_EVENT = "beangle.ui.themechange";
+
+    function normalizeFontSize(raw) {
+      if (raw == null) return null;
+      var value = String(raw).trim();
+      if (!value) return null;
+      var lower = value.toLowerCase();
+      if (lower === "small" || lower === "sm" || lower === "s") return "small";
+      if (lower === "medium" || lower === "middle" || lower === "md" || lower === "m" || lower === "default") {
+        return "medium";
+      }
+      if (lower === "large" || lower === "lg" || lower === "l") return "large";
+      if (value === FONT_SIZE_CSS.small || lower === "0.9286em") return "small";
+      if (value === FONT_SIZE_CSS.medium || lower === "1em" || lower === "1.0em") return "medium";
+      if (value === FONT_SIZE_CSS.large || lower === "1.07143em") return "large";
+      return null;
+    }
+
+    function normalizeThemeMode(raw) {
+      if (raw == null) return null;
+      var value = String(raw).trim();
+      if (!value) return null;
+      var lower = value.toLowerCase();
+      if (lower === "light" || lower === "day" || lower === "default") return "light";
+      if (lower === "dark" || lower === "night") return "dark";
+      return null;
+    }
+
+    function fontSizeToCss(size) {
+      var n = normalizeFontSize(size);
+      return n ? FONT_SIZE_CSS[n] : null;
+    }
+
+    function readStorage(key) {
+      try {
+        if (typeof localStorage === "undefined") return null;
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function writeStorage(key, value) {
+      try {
+        if (typeof localStorage === "undefined") return false;
+        localStorage.setItem(key, value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    /** 将档位应用到 documentElement 根字号（不写 storage） */
+    function applyFontSize(size) {
+      var n = normalizeFontSize(size);
+      if (!n) return null;
+      var css = FONT_SIZE_CSS[n];
+      try {
+        document.documentElement.style.setProperty("font-size", css);
+      } catch (e) {
+        /* ignore */
+      }
+      return n;
+    }
+
+    /**
+     * 应用 theme-mode（不写 storage）。
+     * 写入 data-theme / data-bs-theme / theme-dark|theme-light，由 beangle-ui.css 深色样式挂钩。
+     * 深色时覆盖门户色板写在 html style 上的浅色 --search-bg-color / --gridbar-*（否则 search-panel 仍白）。
+     */
+    function applyThemeMode(mode) {
+      var n = normalizeThemeMode(mode);
+      if (!n) return null;
+      try {
+        var root = document.documentElement;
+        root.setAttribute("data-theme", n);
+        root.setAttribute("data-bs-theme", n);
+        if (n === "dark") {
+          root.classList.add("theme-dark");
+          root.classList.remove("theme-light");
+          root.style.setProperty("--search-bg-color", "#3f474e");
+          root.style.setProperty("--gridbar-bg-color", "#3f474e");
+          root.style.setProperty("--grid-border-color", "#4b545c");
+          root.style.setProperty("--info-title-bg-color", "#454d55");
+          root.style.setProperty("--bui-panel-muted-bg", "#454d55");
+          root.style.setProperty("--bui-info-table-bg", "#3f474e");
+          root.style.setProperty("--grid-select-bg-color", "#1f4d2e");
+        } else {
+          root.classList.add("theme-light");
+          root.classList.remove("theme-dark");
+          if (typeof ui.applyStoredTheme === "function" && ui.applyStoredTheme()) {
+            /* 恢复门户色板中的 search/gridbar */
+          } else {
+            root.style.removeProperty("--search-bg-color");
+            root.style.removeProperty("--gridbar-bg-color");
+            root.style.removeProperty("--grid-border-color");
+            root.style.removeProperty("--info-title-bg-color");
+          }
+          root.style.removeProperty("--bui-panel-muted-bg");
+          root.style.removeProperty("--bui-info-table-bg");
+          root.style.removeProperty("--grid-select-bg-color");
+        }
+      } catch (e) {
+        /* ignore */
+      }
+      return n;
+    }
+
+    /**
+     * 从 localStorage 读取并应用 font-size、theme-mode（及已有主题色）。
+     * 子应用 head 加载 bui 后即可对齐门户外观。
+     * @returns {{fontSize: string|null, themeMode: string|null, theme: boolean}}
+     */
+    function applyStoredSetting() {
+      var result = { fontSize: null, themeMode: null, theme: false };
+      if (typeof ui.applyStoredTheme === "function") {
+        try {
+          result.theme = !!ui.applyStoredTheme();
+        } catch (e) {
+          result.theme = false;
+        }
+      }
+      result.fontSize = applyFontSize(readStorage(FONT_SIZE_KEY));
+      result.themeMode = applyThemeMode(readStorage(THEME_MODE_KEY));
+      return result;
+    }
+
+    /** 应用并持久化字号档位；可选派发 beangle.ui.fontsizechange（值未变则跳过） */
+    function setFontSize(size, notify) {
+      var n = normalizeFontSize(size);
+      if (!n) return null;
+      var prev = normalizeFontSize(readStorage(FONT_SIZE_KEY));
+      applyFontSize(n);
+      if (prev === n) return n;
+      writeStorage(FONT_SIZE_KEY, n);
+      if (notify !== false) {
+        try {
+          window.dispatchEvent(new CustomEvent(FONT_SIZE_EVENT, { detail: n }));
+        } catch (e) {
+          /* ignore */
+        }
+      }
+      return n;
+    }
+
+    /** 应用并持久化 theme-mode；可选派发 beangle.ui.themechange（值未变则跳过） */
+    function setThemeMode(mode, notify) {
+      var n = normalizeThemeMode(mode);
+      if (!n) return null;
+      var prev = normalizeThemeMode(readStorage(THEME_MODE_KEY));
+      applyThemeMode(n);
+      if (prev === n) return n;
+      writeStorage(THEME_MODE_KEY, n);
+      if (notify !== false) {
+        try {
+          window.dispatchEvent(new CustomEvent(THEME_MODE_EVENT, { detail: n }));
+        } catch (e) {
+          /* ignore */
+        }
+      }
+      return n;
+    }
+
+    /** 批量设置：{ fontSize?, themeMode? }；persist 默认 true */
+    function updateSetting(prefs, options) {
+      prefs = prefs || {};
+      options = options || {};
+      var persist = options.persist !== false;
+      var notify = options.notify !== false;
+      var out = { fontSize: null, themeMode: null };
+      if (prefs.fontSize != null) {
+        out.fontSize = persist ? setFontSize(prefs.fontSize, notify) : applyFontSize(prefs.fontSize);
+      }
+      if (prefs.themeMode != null) {
+        out.themeMode = persist ? setThemeMode(prefs.themeMode, notify) : applyThemeMode(prefs.themeMode);
+      }
+      return out;
+    }
+
+    function bindLiveSync() {
+      if (typeof window === "undefined") return;
+      try {
+        window.addEventListener(FONT_SIZE_EVENT, function (ev) {
+          if (ev && ev.detail != null) applyFontSize(ev.detail);
+        });
+        window.addEventListener(THEME_MODE_EVENT, function (ev) {
+          if (ev && ev.detail != null) applyThemeMode(ev.detail);
+        });
+        window.addEventListener("storage", function (ev) {
+          if (!ev) return;
+          if (ev.key === FONT_SIZE_KEY) applyFontSize(ev.newValue);
+          else if (ev.key === THEME_MODE_KEY) applyThemeMode(ev.newValue);
+        });
+      } catch (e) {
+        /* ignore */
+      }
+      // 无界子应用：门户 ems-shell 通过 bus 广播 font-size-change / theme-mode-change
+      try {
+        var bus = (window.$wujie && window.$wujie.bus)
+          || (window.__WUJIE && window.__WUJIE.bus)
+          || (window.wujie && window.wujie.bus);
+        if (bus && typeof bus.$on === "function") {
+          bus.$on("font-size-change", function (size) { applyFontSize(size); });
+          bus.$on("theme-mode-change", function (mode) { applyThemeMode(mode); });
+        }
+      } catch (e2) {
+        /* ignore */
+      }
+      // 无界首次 props（与 localStorage 互补，跨域时更有用）
+      try {
+        var props = (window.$wujie && window.$wujie.props)
+          || (window.__WUJIE && window.__WUJIE.props);
+        if (props) {
+          if (props.fontSize != null) applyFontSize(props.fontSize);
+          if (props.themeMode != null) applyThemeMode(props.themeMode);
+          else if (props.theme != null) applyThemeMode(props.theme);
+        }
+      } catch (e3) {
+        /* ignore */
+      }
+    }
+
+    ui.fontSizeStorageKey = FONT_SIZE_KEY;
+    ui.themeModeStorageKey = THEME_MODE_KEY;
+    ui.normalizeFontSize = normalizeFontSize;
+    ui.normalizeThemeMode = normalizeThemeMode;
+    ui.fontSizeToCss = fontSizeToCss;
+    ui.applyFontSize = applyFontSize;
+    ui.applyThemeMode = applyThemeMode;
+    ui.applyStoredSetting = applyStoredSetting;
+    ui.setFontSize = setFontSize;
+    ui.setThemeMode = setThemeMode;
+    ui.updateSetting = updateSetting;
+
+    applyStoredSetting();
+    bindLiveSync();
+  })(beangle.ui || (beangle.ui = {}));
+
   //register as a module
   if ( typeof module === "object" && module && typeof module.exports === "object" ) {
     module.exports = beangle.ui;

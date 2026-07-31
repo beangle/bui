@@ -1,18 +1,14 @@
-import scala.collection.mutable
-
-def newLocation(f: File, newBase: String): String = {
-  val path = f.getAbsolutePath
-  newBase + path.substring(path.indexOf("classes") + "classes".length)
+Compile / packageBin / mappings := {
+  (Compile / copyResources).value
+  val converter = fileConverter.value
+  val prefix = "META-INF/resources/bui/" + version.value
+  // 只用 classDirectory：products 同时含 classes / src/main/resources / resource_managed，
+  // 相对路径重复会导致 ZipException: duplicate entry
+  Path.allSubpaths((Compile / classDirectory).value)
+    .iterator
+    .filter(_._1.isFile)
+    .map { case (file, path) =>
+      converter.toVirtualFile(file.toPath) -> s"$prefix/$path"
+    }
+    .toSeq
 }
-
-def relocate(f: File, newBase: String): Seq[(File, String)] = {
-  val buf = new mutable.ArrayBuffer[(File, String)]
-  buf += (f -> newLocation(f, newBase))
-  val fc = f.listFiles()
-  if (fc != null) {
-    fc foreach { fi => buf ++= relocate(fi, newBase) }
-  }
-  buf
-}
-
-Compile / packageBin / mappings := relocate(target.value / "classes", "META-INF/resources/bui/"+version.value)
