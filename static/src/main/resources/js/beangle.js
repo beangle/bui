@@ -1683,7 +1683,10 @@
       // 深色模式由 applyThemeMode 管理 search/grid 表面色，避免门户浅色色板盖回白色面板
       if (!dark) {
         if (t.searchBgColor) r.style.setProperty("--bui-search-bg", t.searchBgColor);
-        if (t.gridbarBgColor) r.style.setProperty("--bui-gridbar-bg", t.gridbarBgColor);
+        if (t.gridbarBgColor) {
+          r.style.setProperty("--bui-gridbar-bg", t.gridbarBgColor);
+          r.style.setProperty("--bui-grid-header-bg", t.gridbarBgColor);
+        }
         if (t.gridBorderColor) r.style.setProperty("--bui-grid-border-color", t.gridBorderColor);
       }
       return true;

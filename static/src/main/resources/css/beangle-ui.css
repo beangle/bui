@@ -24,21 +24,19 @@
   /* 门户主题色板（可被 beangle.ui.theme / applyStoredTheme 覆盖） */
   --primary-color:#0076ff;
   --bui-navbar-bg:#3c8dbc;
-  --bui-search-bg:#E1ECFF;
-  --bui-gridbar-bg:#c7dbff;
+  --bui-search-bg:#e1ecff;
+  --bui-gridbar-bg:#e1ecff;
   --bui-grid-border-color:#006CB2;
   --bui-info-title-bg:#F5EDDB;
   --bui-border-width:1px;
 
   /* 语义表面色：组件尽量只用这组；深色模式优先改这里 */
-  --bui-body-bg: #f4f6f9;
+  --bui-body-bg: #ffffff;
   --bui-surface-bg: #ffffff;
   --bui-surface-2: #f8f9fa;
   --bui-border-color: #dee2e6;
   --bui-text-color: #212529;
   --bui-text-muted: #6c757d;
-  --bui-zebra-odd: #ffffff;
-  --bui-zebra-even: #f9f9f9;
   --bui-highlight-bg: #F9EDBE;
   --bui-highlight-text: #000000;
   --bui-link-color: var(--primary-color);
@@ -48,6 +46,9 @@
   --bui-info-table-bg: #EEEEEE;
   --bui-focus-ring: var(--primary-color);
   --bui-grid-select-bg: #BFFFBF;
+  --bui-grid-row-hover-bg: #fff8d6;
+  --bui-grid-row-selected-bg: #eaf7ff;
+  --bui-grid-header-bg: #e1ecff;
 }
 
 html {
@@ -291,13 +292,42 @@ a {
 .grid-table {
   width: 100%;
   table-layout: fixed;
+  border-collapse: collapse;
+  border-top: var(--bui-border-width) solid var(--bui-grid-border-color);
 }
 
 .grid-table td,
 .grid-table th {
-  border: var(--bui-border-width) solid var(--bui-grid-border-color);
   overflow: hidden;
-  padding:2px 0;
+  padding: 3px 0;
+  border-bottom: var(--bui-border-width) solid var(--bui-grid-border-color);
+}
+
+.grid-table th {
+  position: relative;
+}
+
+/* 表头单元格间的短竖线（半高，不延伸到表格内容区） */
+.grid-table th::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--bui-border-width);
+  height: 50%;
+  background-color: var(--bui-grid-border-color);
+}
+
+/* hover 排序高亮或排序状态时隐藏竖线，避免残留在高亮背景上（含相邻前一格的竖线） */
+.grid-table th:hover::after,
+.grid-table th:has(+ th:hover)::after,
+.grid-table th.grid-head-asc::after,
+.grid-table th.grid-head-desc::after,
+.grid-table th:has(+ th.grid-head-asc)::after,
+.grid-table th:has(+ th.grid-head-desc)::after,
+.grid-table th:last-child::after {
+  display: none;
 }
 
 .grid-table tr {
@@ -311,15 +341,17 @@ a {
   letter-spacing: 0;
 }
 
+.grid-body tr:nth-of-type(even) {
+  background-color: var(--bui-hover-bg);
+}
+
+
+.grid-body tr:hover {
+  background-color: var(--bui-grid-row-hover-bg);
+}
+
 .grid-data-selected {
-}
-
-.grid-body tr:nth-of-type(even){
-  background-color: var(--bui-zebra-even);
-}
-
-.grid-body tr:nth-of-type(odd){
-  background-color: var(--bui-zebra-odd);
+  background-color: var(--bui-grid-row-selected-bg);
 }
 
 .grid-filter-submit {
@@ -333,7 +365,6 @@ a {
 
 .grid-select {
   text-align: center;
-  background-color: var(--bui-search-bg);
 }
 
 .grid-select-top {
@@ -343,7 +374,7 @@ a {
 .grid-head {
   color: var(--bui-text-color);
   letter-spacing: 0;
-  background-color: var(--bui-gridbar-bg);
+  background-color: var(--bui-grid-header-bg);
 }
 
 .grid-head-icon {
@@ -352,12 +383,12 @@ a {
 }
 
 .grid-head-asc {
-  background-color: var(--bui-navbar-bg);
+  background-color: color-mix(in srgb, var(--bui-navbar-bg) 85%, #ffffff);
   cursor: pointer;
 }
 
 .grid-head-desc {
-  background-color: var(--bui-navbar-bg);
+  background-color: color-mix(in srgb, var(--bui-navbar-bg) 85%, #ffffff);
   cursor: pointer;
 }
 
@@ -366,7 +397,7 @@ a {
 }
 
 .grid-head input[type="text"] {
-  border: var(--bui-border-width) solid var(--bui-border-color);
+  border: var(--bui-border-width) solid gray;
   background-color: var(--bui-surface-bg);
   color: var(--bui-text-color);
   border-radius: .25rem;
@@ -878,7 +909,7 @@ input[type="password"],
 input[type="number"],
 input[type="email"],
 input[type="url"] {
-  border: var(--bui-border-width) solid var(--bui-border-color);
+  border: var(--bui-border-width) solid gray;
   background-color: var(--bui-surface-bg);
   color: var(--bui-text-color);
   height: 1.5625rem;
@@ -1089,26 +1120,26 @@ fieldset.listset li>input:focus {
 html .chosen-container-single .chosen-single,
 html .chosen-container-active.chosen-with-drop .chosen-single {
   background: var(--bui-surface-bg) none;
-  border-color: var(--bui-border-color);
+  border-color: gray;
   box-shadow: none;
   color: var(--bui-text-color);
 }
 
 html .chosen-container-multi .chosen-choices {
   background: var(--bui-surface-bg) none;
-  border-color: var(--bui-border-color);
+  border-color: gray;
   box-shadow: none;
 }
 
 html .chosen-container-single .chosen-search input[type="text"] {
   background-color: var(--bui-surface-bg);
-  border-color: var(--bui-border-color);
+  border-color: gray;
   color: var(--bui-text-color);
 }
 
 html .chosen-container .chosen-drop {
   background-color: var(--bui-surface-bg);
-  border-color: var(--bui-border-color);
+  border-color: gray;
   color: var(--bui-text-color);
 }
 
@@ -1117,6 +1148,9 @@ html .chosen-container .chosen-results li.highlighted {
   color: #fff;
 }
 
+html .chosen-container .chosen-results{
+  color: var(--bui-text-color);
+}
 .compact.table>tbody>tr>td {
   padding: 0.5rem;
   height: 35px;
@@ -1496,7 +1530,7 @@ select.form-control,
 textarea.form-control {
   background-color: var(--bui-surface-bg);
   color: var(--bui-text-color);
-  border-color: var(--bui-border-color);
+  border-color: gray;
 }
 
 .form-control:focus,
@@ -1515,13 +1549,13 @@ textarea.form-control {
 .btn-light,
 .btn-secondary {
   background-color: var(--bui-surface-2);
-  border-color: var(--bui-border-color);
+  border-color: gray;
   color: var(--bui-text-color);
 }
 
 .btn-outline-secondary {
   color: var(--bui-text-muted);
-  border-color: var(--bui-border-color);
+  border-color: gray;
   background-color: transparent;
 }
 
@@ -1587,8 +1621,6 @@ hr {
   --bui-border-color: #4b545c;
   --bui-text-color: #e9ecef;
   --bui-text-muted: #adb5bd;
-  --bui-zebra-odd: #3f474e;
-  --bui-zebra-even: #343a40;
   --bui-highlight-bg: #454d55;
   --bui-highlight-text: #ffc107;
   --bui-link-color: var(--primary-color);
@@ -1597,6 +1629,9 @@ hr {
   --bui-panel-muted-bg: #454d55;
   --bui-info-table-bg: #3f474e;
   --bui-grid-select-bg: #1f4d2e;
+  --bui-grid-row-hover-bg: #2a2a3e;
+  --bui-grid-row-selected-bg: #1e2e44;
+  --bui-grid-header-bg: #202038;
 }
 
 /* 再次压过后加载的 Bootstrap/AdminLTE 白底 */

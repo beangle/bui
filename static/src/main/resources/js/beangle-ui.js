@@ -539,7 +539,7 @@
       // 鼠标经过和移出排序表格的表头时
       overSortTableHeader : function  (){
         this.style.color='white';
-        this.style.backgroundColor ='green'
+        this.style.backgroundColor ='color-mix(in srgb, var(--bui-navbar-bg) 85%, #ffffff)';
       },
       outSortTableHeader : function (){
         this.style.borderColor='';
@@ -553,7 +553,7 @@
         selectIndex=myclass.indexOf("grid-data-selected");
         if(-1 != selectIndex) return;
         if(this.style.backgroundColor==""){
-          this.style.backgroundColor="var(--bui-grid-select-bg)";
+          this.style.backgroundColor="var(--bui-grid-row-hover-bg)";
         }else{
           this.style.backgroundColor=""
         }
@@ -587,7 +587,7 @@
           if(inputs.length==0)return;
           if(ele.checked){
             inputs.prop("checked",true);
-            jQuery(this).parent("tr").addClass("grid-data-selected").css({"background-color":'var(--bui-grid-select-bg)'});
+            jQuery(this).parent("tr").addClass("grid-data-selected").css({"background-color":'var(--bui-grid-row-selected-bg)'});
             selectedCount++;
           }else{
             if(inputs.is(":checked")){
@@ -671,7 +671,7 @@
         var row=firstCell.parentNode;
         if((typeof row.className)=="undefined") return;
         if(ele.checked) {
-          jQuery(row).addClass("grid-data-selected").css({"background-color":'var(--bui-grid-select-bg)'});
+          jQuery(row).addClass("grid-data-selected").css({"background-color":'var(--bui-grid-row-selected-bg)'});
         }else{
           jQuery(row).removeClass("grid-data-selected");
           //.css({"background-color":''}); this color will remove by mouseOut
@@ -1344,6 +1344,7 @@
           root.classList.remove("theme-light");
           root.style.setProperty("--bui-search-bg", "#3f474e");
           root.style.setProperty("--bui-gridbar-bg", "#3f474e");
+          root.style.setProperty("--bui-grid-header-bg", "#3f474e");
           root.style.setProperty("--bui-grid-border-color", "#4b545c");
           root.style.setProperty("--bui-info-title-bg", "#454d55");
           root.style.setProperty("--bui-panel-muted-bg", "#454d55");
@@ -1357,6 +1358,7 @@
           } else {
             root.style.removeProperty("--bui-search-bg");
             root.style.removeProperty("--bui-gridbar-bg");
+            root.style.removeProperty("--bui-grid-header-bg");
             root.style.removeProperty("--bui-grid-border-color");
             root.style.removeProperty("--bui-info-title-bg");
           }
