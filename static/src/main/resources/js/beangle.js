@@ -22,7 +22,7 @@
     return true;
   };
 
-  beangle.version = "0.8.5";
+  beangle.version = "0.8.6";
   beangle.base = null;
   beangle.staticBase = null;
   beangle.contextPath = null;
@@ -1679,12 +1679,12 @@
         r.getAttribute("data-bs-theme") === "dark" ||
         r.classList.contains("theme-dark");
       if (t.primaryColor) r.style.setProperty("--primary-color", t.primaryColor);
-      if (t.navbarBgColor) r.style.setProperty("--navbar-bg-color", t.navbarBgColor);
+      if (t.navbarBgColor) r.style.setProperty("--bui-navbar-bg", t.navbarBgColor);
       // 深色模式由 applyThemeMode 管理 search/grid 表面色，避免门户浅色色板盖回白色面板
       if (!dark) {
-        if (t.searchBgColor) r.style.setProperty("--search-bg-color", t.searchBgColor);
-        if (t.gridbarBgColor) r.style.setProperty("--gridbar-bg-color", t.gridbarBgColor);
-        if (t.gridBorderColor) r.style.setProperty("--grid-border-color", t.gridBorderColor);
+        if (t.searchBgColor) r.style.setProperty("--bui-search-bg", t.searchBgColor);
+        if (t.gridbarBgColor) r.style.setProperty("--bui-gridbar-bg", t.gridbarBgColor);
+        if (t.gridBorderColor) r.style.setProperty("--bui-grid-border-color", t.gridBorderColor);
       }
       return true;
     } catch (e) {

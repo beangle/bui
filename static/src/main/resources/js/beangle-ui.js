@@ -553,7 +553,7 @@
         selectIndex=myclass.indexOf("grid-data-selected");
         if(-1 != selectIndex) return;
         if(this.style.backgroundColor==""){
-          this.style.backgroundColor="var(--grid-select-bg-color)";
+          this.style.backgroundColor="var(--bui-grid-select-bg)";
         }else{
           this.style.backgroundColor=""
         }
@@ -587,7 +587,7 @@
           if(inputs.length==0)return;
           if(ele.checked){
             inputs.prop("checked",true);
-            jQuery(this).parent("tr").addClass("grid-data-selected").css({"background-color":'var(--grid-select-bg-color)'});
+            jQuery(this).parent("tr").addClass("grid-data-selected").css({"background-color":'var(--bui-grid-select-bg)'});
             selectedCount++;
           }else{
             if(inputs.is(":checked")){
@@ -671,7 +671,7 @@
         var row=firstCell.parentNode;
         if((typeof row.className)=="undefined") return;
         if(ele.checked) {
-          jQuery(row).addClass("grid-data-selected").css({"background-color":'var(--grid-select-bg-color)'});
+          jQuery(row).addClass("grid-data-selected").css({"background-color":'var(--bui-grid-select-bg)'});
         }else{
           jQuery(row).removeClass("grid-data-selected");
           //.css({"background-color":''}); this color will remove by mouseOut
@@ -1330,7 +1330,7 @@
     /**
      * 应用 theme-mode（不写 storage）。
      * 写入 data-theme / data-bs-theme / theme-dark|theme-light，由 beangle-ui.css 深色样式挂钩。
-     * 深色时覆盖门户色板写在 html style 上的浅色 --search-bg-color / --gridbar-*（否则 search-panel 仍白）。
+     * 深色时覆盖门户色板写在 html style 上的浅色 --bui-search-bg / --bui-gridbar-*（否则 search-panel 仍白）。
      */
     function applyThemeMode(mode) {
       var n = normalizeThemeMode(mode);
@@ -1342,27 +1342,27 @@
         if (n === "dark") {
           root.classList.add("theme-dark");
           root.classList.remove("theme-light");
-          root.style.setProperty("--search-bg-color", "#3f474e");
-          root.style.setProperty("--gridbar-bg-color", "#3f474e");
-          root.style.setProperty("--grid-border-color", "#4b545c");
-          root.style.setProperty("--info-title-bg-color", "#454d55");
+          root.style.setProperty("--bui-search-bg", "#3f474e");
+          root.style.setProperty("--bui-gridbar-bg", "#3f474e");
+          root.style.setProperty("--bui-grid-border-color", "#4b545c");
+          root.style.setProperty("--bui-info-title-bg", "#454d55");
           root.style.setProperty("--bui-panel-muted-bg", "#454d55");
           root.style.setProperty("--bui-info-table-bg", "#3f474e");
-          root.style.setProperty("--grid-select-bg-color", "#1f4d2e");
+          root.style.setProperty("--bui-grid-select-bg", "#1f4d2e");
         } else {
           root.classList.add("theme-light");
           root.classList.remove("theme-dark");
           if (typeof ui.applyStoredTheme === "function" && ui.applyStoredTheme()) {
             /* 恢复门户色板中的 search/gridbar */
           } else {
-            root.style.removeProperty("--search-bg-color");
-            root.style.removeProperty("--gridbar-bg-color");
-            root.style.removeProperty("--grid-border-color");
-            root.style.removeProperty("--info-title-bg-color");
+            root.style.removeProperty("--bui-search-bg");
+            root.style.removeProperty("--bui-gridbar-bg");
+            root.style.removeProperty("--bui-grid-border-color");
+            root.style.removeProperty("--bui-info-title-bg");
           }
           root.style.removeProperty("--bui-panel-muted-bg");
           root.style.removeProperty("--bui-info-table-bg");
-          root.style.removeProperty("--grid-select-bg-color");
+          root.style.removeProperty("--bui-grid-select-bg");
         }
       } catch (e) {
         /* ignore */
