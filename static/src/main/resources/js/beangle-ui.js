@@ -546,18 +546,6 @@
         this.style.color='';
         this.style.backgroundColor ='';
       },
-      // 鼠标经过数据行的效果
-      mouseOverGrid : function (){
-        if((typeof this.className)=="undefined") return;
-        var myclass=this.className;
-        selectIndex=myclass.indexOf("grid-data-selected");
-        if(-1 != selectIndex) return;
-        if(this.style.backgroundColor==""){
-          this.style.backgroundColor="var(--bui-grid-row-hover-bg)";
-        }else{
-          this.style.backgroundColor=""
-        }
-      },
       setGridMessage : function (gridId,message){
         var msgDiv1=document.getElementById(gridId+'_bar1_msg');
         var msgDiv2=document.getElementById(gridId+'_bar2_msg');
@@ -587,12 +575,12 @@
           if(inputs.length==0)return;
           if(ele.checked){
             inputs.prop("checked",true);
-            jQuery(this).parent("tr").addClass("grid-data-selected").css({"background-color":'var(--bui-grid-row-selected-bg)'});
+            jQuery(this).parent("tr").addClass("grid-data-selected");
             selectedCount++;
           }else{
             if(inputs.is(":checked")){
               inputs.prop("checked",false);
-              jQuery(this).parent("tr").removeClass("grid-data-selected").css({"background-color":''});
+              jQuery(this).parent("tr").removeClass("grid-data-selected");
             }
           }
         });
@@ -667,14 +655,13 @@
         }
         if(null==ele || null==firstCell || null==ownGridTable || !changed) return;
 
-        // 改变选定行的颜色
+        // 改变选定行的颜色（由 CSS .grid-data-selected 控制，不再写 inline）
         var row=firstCell.parentNode;
         if((typeof row.className)=="undefined") return;
         if(ele.checked) {
-          jQuery(row).addClass("grid-data-selected").css({"background-color":'var(--bui-grid-row-selected-bg)'});
+          jQuery(row).addClass("grid-data-selected");
         }else{
           jQuery(row).removeClass("grid-data-selected");
-          //.css({"background-color":''}); this color will remove by mouseOut
         }
 
         var selectedCount=0;
@@ -785,8 +772,6 @@
         for(j=0;j<tbody.rows.length;j++){
           row=tbody.rows[j];
           row.onclick = bg.ui.grid.toggleRow;
-          row.onmouseover=bg.ui.grid.mouseOverGrid;
-          row.onmouseout=bg.ui.grid.mouseOverGrid;
         }
       },
       fillEmpty : function (divId,pageSize,size,msg){

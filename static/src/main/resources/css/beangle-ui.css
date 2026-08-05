@@ -335,22 +335,30 @@ a {
   text-decoration: none;
 }
 
-.grid-body tr{
+.grid-body tr {
   text-align: center;
   text-decoration: none;
   letter-spacing: 0;
 }
 
+/* 斑马纹：偶数行轻微底色（独立于 hover/selected，互不干扰） */
 .grid-body tr:nth-of-type(even) {
-  background-color: hsla(240,5%,96%,0.6);
+  background-color: hsla(240, 5%, 96%, 0.6);
 }
 
+/* 选中行：优先级高于斑马纹 */
+.grid-data-selected {
+  background-color: var(--bui-grid-row-selected-bg);
+}
+
+/* 悬停反馈：优先级高于斑马纹与选中色，让选中行 hover 时也有变化 */
 .grid-body tr:hover {
   background-color: var(--bui-grid-row-hover-bg);
 }
 
-.grid-data-selected {
-  background-color: var(--bui-grid-row-selected-bg);
+/* 选中行悬停时混合选中色与 hover 色，保留"已选中"的可辨识度 */
+.grid-body tr.grid-data-selected:hover {
+  background-color: color-mix(in srgb, var(--bui-grid-row-selected-bg) 60%, var(--bui-grid-row-hover-bg));
 }
 
 .grid-filter-submit {
@@ -1662,6 +1670,11 @@ hr {
   --bui-grid-row-hover-bg: #2a2a3e;
   --bui-grid-row-selected-bg: #1e2e44;
   --bui-grid-header-bg: #202038;
+}
+
+/* 深色模式下偶数行使用更深的底色，避免过亮 */
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .grid-body tr:nth-of-type(even) {
+  background-color: hsla(12, 7%, 15%, 0.6);
 }
 
 /* 再次压过后加载的 Bootstrap/AdminLTE 白底 */
