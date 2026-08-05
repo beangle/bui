@@ -26,7 +26,7 @@
   --bui-navbar-bg:#3c8dbc;
   --bui-search-bg:#e1ecff;
   --bui-gridbar-bg:#e1ecff;
-  --bui-grid-border-color:#006CB2;
+  --bui-grid-border-color:hsla(0,0%,0%,0.3);
   --bui-info-title-bg:#F5EDDB;
   --bui-border-width:1px;
 
@@ -342,9 +342,8 @@ a {
 }
 
 .grid-body tr:nth-of-type(even) {
-  background-color: var(--bui-hover-bg);
+  background-color: hsla(240,5%,96%,0.6);
 }
-
 
 .grid-body tr:hover {
   background-color: var(--bui-grid-row-hover-bg);
