@@ -737,6 +737,10 @@ div.search-footer .btn-sm {
   width: 6.25rem;
   height: 1.5625rem;
   font-size: 0.75rem !important;
+  border: var(--bui-border-width) solid gray;
+  border-radius: .25rem;
+  background-color: var(--bui-surface-bg);
+  padding: 0rem .375rem;
 }
 
 @media (min-width: 768px) {
@@ -918,10 +922,21 @@ input[type="url"] {
   padding: 0rem .375rem;
 }
 
+fieldset.listset li>textarea{
+  border: var(--bui-border-width) solid gray;
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
+  border-radius: .25rem;
+  min-height: 3rem;
+}
+
 fieldset.listset li>select {
   height: 1.5625rem;
   width: 200px;
-  font-size: 0.75rem !important;
+  border: var(--bui-border-width) solid gray;
+  border-radius: .25rem;
+  background-color: var(--bui-surface-bg);
+  padding: 0rem .375rem;
 }
 
 fieldset.listset li>input:focus {
@@ -1120,14 +1135,16 @@ fieldset.listset li>input:focus {
 html .chosen-container-single .chosen-single,
 html .chosen-container-active.chosen-with-drop .chosen-single {
   background: var(--bui-surface-bg) none;
-  border-color: gray;
+  border: var(--bui-border-width) solid gray;
+  border-radius: 0.25rem;
   box-shadow: none;
   color: var(--bui-text-color);
 }
 
 html .chosen-container-multi .chosen-choices {
   background: var(--bui-surface-bg) none;
-  border-color: gray;
+  border: var(--bui-border-width) solid gray;
+  border-radius: 0.25rem;
   box-shadow: none;
 }
 
@@ -1151,6 +1168,20 @@ html .chosen-container .chosen-results li.highlighted {
 html .chosen-container .chosen-results{
   color: var(--bui-text-color);
 }
+/**以下三个定义，目的节省空间，隐藏下拉符号*/
+html .chosen-container-single .chosen-single-with-deselect span {
+  margin-right: 3px;
+}
+
+html .chosen-container-single .chosen-single abbr {
+  right: 3px;
+}
+
+/* 隐藏整个下拉三角点击区（div），避免遮挡 abbr 取消图标，也避免点到它触发下拉 */
+html .chosen-container-single .chosen-single div {
+  display: none;
+}
+
 .compact.table>tbody>tr>td {
   padding: 0.5rem;
   height: 35px;
