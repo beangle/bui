@@ -22,7 +22,6 @@
     return true;
   };
 
-  beangle.version = "0.8.6";
   beangle.base = null;
   beangle.staticBase = null;
   beangle.contextPath = null;
@@ -1458,6 +1457,21 @@
         return combined;
       }
     },
+    /** 获取某 bundle 静态资源的 URL，版本号从已注册模块路径解析，无需维护 beangle.version */
+    staticUrl: function (bundle, file) {
+      var prefix = bundle;
+      for (var m in beangle.amd.modules) {
+        var js = beangle.amd.modules[m].js;
+        if (js && js.indexOf(bundle + "/") === 0) {
+          var idx = js.indexOf("/", bundle.length + 1);
+          if (idx > -1) {
+            prefix = js.substring(0, idx);
+            break;
+          }
+        }
+      }
+      return beangle.staticBase + prefix + "/" + file;
+    },
     /** 注册项 mod.js 或 require 中直接传入的 http(s) URL → 可加载的 script href */
     resolveModuleUrl: function (name) {
       if (beangle.amd.isAbsoluteResourceUrl(name)) return name;
@@ -1683,10 +1697,9 @@
       // 深色模式由 applyThemeMode 管理 search/grid 表面色，避免门户浅色色板盖回白色面板
       if (!dark) {
         if (t.searchBgColor) r.style.setProperty("--bui-search-bg", t.searchBgColor);
-        if (t.gridbarBgColor) {
-          r.style.setProperty("--bui-gridbar-bg", t.gridbarBgColor);
-          r.style.setProperty("--bui-grid-header-bg", t.gridbarBgColor);
-        }
+        if (t.gridbarBgColor) r.style.setProperty("--bui-gridbar-bg", t.gridbarBgColor);
+        if (t.gridHeaderBgColor) r.style.setProperty("--bui-grid-header-bg", t.gridHeaderBgColor);
+        else if (t.gridbarBgColor) r.style.setProperty("--bui-grid-header-bg", t.gridbarBgColor);
         if (t.gridBorderColor) r.style.setProperty("--bui-grid-border-color", t.gridBorderColor);
       }
       return true;

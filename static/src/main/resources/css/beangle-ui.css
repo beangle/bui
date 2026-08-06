@@ -24,8 +24,8 @@
   /* 门户主题色板（可被 beangle.ui.theme / applyStoredTheme 覆盖） */
   --primary-color:#0076ff;
   --bui-navbar-bg:#3c8dbc;
-  --bui-search-bg:#e1ecff;
-  --bui-gridbar-bg:#e1ecff;
+  --bui-search-bg:#f8fafc;
+  --bui-gridbar-bg:#f8fafc;
   --bui-grid-border-color:hsla(0,0%,0%,0.3);
   --bui-info-title-bg:#F5EDDB;
   --bui-border-width:1px;
@@ -346,19 +346,15 @@ a {
   background-color: hsla(240, 5%, 96%, 0.6);
 }
 
-/* 选中行：优先级高于斑马纹 */
-.grid-data-selected {
+/* 选中行：优先级高于斑马纹（.grid-body tr:nth-of-type(even) 特异性为 0,2,1，
+   需用相同特异的 .grid-body tr.grid-data-selected 且在后方定义才能压过） */
+.grid-body tr.grid-data-selected {
   background-color: var(--bui-grid-row-selected-bg);
 }
 
-/* 悬停反馈：优先级高于斑马纹与选中色，让选中行 hover 时也有变化 */
+/* 悬停反馈：优先级高于斑马纹与选中色，hover 时直接显示 hover 色，移开后恢复选中色 */
 .grid-body tr:hover {
   background-color: var(--bui-grid-row-hover-bg);
-}
-
-/* 选中行悬停时混合选中色与 hover 色，保留"已选中"的可辨识度 */
-.grid-body tr.grid-data-selected:hover {
-  background-color: color-mix(in srgb, var(--bui-grid-row-selected-bg) 60%, var(--bui-grid-row-hover-bg));
 }
 
 .grid-filter-submit {
@@ -390,17 +386,22 @@ a {
 }
 
 .grid-head-asc {
-  background-color: color-mix(in srgb, var(--bui-navbar-bg) 85%, #ffffff);
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg) 88%, black);
   cursor: pointer;
 }
 
 .grid-head-desc {
-  background-color: color-mix(in srgb, var(--bui-navbar-bg) 85%, #ffffff);
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg) 88%, black);
   cursor: pointer;
 }
 
 .grid-head-sortable {
   cursor: pointer;
+}
+
+/* hover 预览排序：从表头背景轻微加深，清晰且不突兀 */
+.grid-head-sortable:hover {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg) 88%, black);
 }
 
 .grid-head input[type="text"] {
@@ -525,7 +526,7 @@ a {
   height: 21px;
   padding: 2px 3px 2px 3px;
   margin: 1px 0px 1px 10px;
-  background-color: var(--bui-highlight-bg);
+  background-color: var(--bui-grid-row-hover-bg);
   color: var(--bui-highlight-text);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -1675,6 +1676,16 @@ hr {
 /* 深色模式下偶数行使用更深的底色，避免过亮 */
 :is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .grid-body tr:nth-of-type(even) {
   background-color: hsla(12, 7%, 15%, 0.6);
+}
+
+/* 深色模式下排序/悬停表头从深色表头背景提亮，保持区分度 */
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .grid-head-asc,
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .grid-head-desc {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg) 85%, white);
+}
+
+:is(html[data-theme="dark"], html[data-bs-theme="dark"], html.theme-dark) .grid-head-sortable:hover {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg) 85%, white);
 }
 
 /* 再次压过后加载的 Bootstrap/AdminLTE 白底 */

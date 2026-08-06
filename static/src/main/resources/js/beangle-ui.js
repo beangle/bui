@@ -47,7 +47,7 @@
     this.id=divId;
     this.separator="&nbsp;";
     this.bar.className="toolbar notprint";
-    var imagePath=beangle.staticBase + "bui/"+beangle.version+"/icons/16x16/actions/";
+    var imagePath=beangle.amd.staticUrl("bui","icons/16x16/actions/");
 
     this.setTitle=function(newTitle,imageName){
       if(!newTitle) return;
@@ -537,9 +537,10 @@
       enableDynaBar:true,
       enableSelectTip:true,
       // 鼠标经过和移出排序表格的表头时
+      // hover 排序表头：背景由 CSS .grid-head-sortable:hover 管理，文字保持表头默认色
       overSortTableHeader : function  (){
-        this.style.color='white';
-        this.style.backgroundColor ='color-mix(in srgb, var(--bui-navbar-bg) 85%, #ffffff)';
+        this.style.color='';
+        this.style.backgroundColor ='';
       },
       outSortTableHeader : function (){
         this.style.borderColor='';

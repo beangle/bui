@@ -40,10 +40,13 @@
 </table>
 </div>
 [#if tag.hasbar]
+[#assign showBottomBar = tag.items?size > 30]
 [#if tag.notFullPage]
 <div class="grid-empty border-bottom-1px border-blue" id="${tag.id}_empty"></div>
 [/#if]
+[#if showBottomBar]
 <div id="${tag.id}_bar2"  class="grid-bar"></div>
+[/#if]
 [/#if]
 </div>
 <script type="text/javascript">
@@ -51,7 +54,7 @@
   page_${tag.id}.setTarget("${tag.parameters['target']!""}",'${tag.id}').action("${request.requestURI}").addParams('${b.paramstring}').orderBy("${Parameters['orderBy']!('null')}");
   bg.ui.grid.init('${tag.id}',page_${tag.id});
   [#if tag.hasbar]
-  bar=new bg.ui.gridbar(['${tag.id}_bar1','${tag.id}_bar2'],'${(tag.parameters['title']?default(''))?replace("'","\"")}');
+  bar=new bg.ui.gridbar(['${tag.id}_bar1'[#if showBottomBar],'${tag.id}_bar2'[/#if]],'${(tag.parameters['title']?default(''))?replace("'","\"")}');
   [#if tag.pageable]
   page_${tag.id}.pageInfo(${tag.items.pageIndex},${tag.items.pageSize},${tag.items.totalItems});
   bar.addPage(page_${tag.id},[#if tag.parameters['fixPageSize']??][][#else]null[/#if],{${b.text('page.description')}});
