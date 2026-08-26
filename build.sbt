@@ -2,7 +2,7 @@ import org.beangle.parent.Dependencies.*
 import org.beangle.parent.Settings.*
 
 organization := "org.beangle.bui"
-version := "0.9.1-SNAPSHOT"
+version := "0.9.1"
 
 scmInfo := Some(
   ScmInfo(
@@ -24,7 +24,7 @@ description := "The Beangle BUI Library"
 homepage := Some(uri("https://beangle.github.io/bui/index.html"))
 resolvers += Resolver.mavenLocal
 
-val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.0"
+val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.1"
 val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.8"
 
 lazy val root = (project in file("."))
