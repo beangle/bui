@@ -46,7 +46,7 @@
         <module name="bui" js="js/beangle-ui.js" css="css/beangle-ui.css"/>
         <module name="bui-ajaxchosen" js="js/beangle-ui-ajaxchosen.js" depends="chosen"/>
         <module name="jquery-validity" js="js/jquery-validity.js" css="css/jquery.validity.css"/>
-        <module name="jquery-pstrength" js="js/jquery-pstrength,jquery-pstrength_zh.js" css="css/jquery.pstrength.css"/>
+        <module name="jquery-pstrength" js="js/jquery-pstrength.js" css="css/jquery.pstrength.css"/>
         <module name="jquery-treetable" js="js/jquery-treetable.js" css="css/jquery.treetable.css"/>
       </bundle>
 
@@ -55,7 +55,7 @@
       </bundle>
 
       <bundle name="kindeditor" version="4.1.12">
-        <module name="kindeditor" js="kindeditor-all-min,lang/zh-CN.js" css="themes/default/default.css"/>
+        <module name="kindeditor" js="kindeditor-all-min.js" css="themes/default/default.css"/>
       </bundle>
 
       <bundle name="echarts" version="5.3.1">
