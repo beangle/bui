@@ -338,7 +338,17 @@ class Select(context: ComponentContext) extends ActionClosingUIBean(context) {
         case juMap: ju.Map[_, _] =>
           keyName = "key"
           valueName = "value"
-          items = juMap.entrySet
+          // 将 Map 转换为 Map List，避免使用 Map.Entry（解决 GraalVM 反射问题）
+          val mapList = new ju.ArrayList[ju.Map[String, Any]](juMap.size)
+          val it = juMap.entrySet().iterator()
+          while (it.hasNext) {
+            val entry = it.next()
+            val item = new ju.HashMap[String, Any](2)
+            item.put("key", entry.getKey)
+            item.put("value", entry.getValue)
+            mapList.add(item)
+          }
+          items = mapList
         case _ =>
           keyName = "id"
           valueName = "name"
