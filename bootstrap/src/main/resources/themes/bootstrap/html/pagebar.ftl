@@ -1,6 +1,6 @@
 <script type="text/javascript">
 bg.ready(function(){
-  page_${tag.id}=bg.page("${request.requestURI}","${tag.parameters['target']!""}");
+  page_${tag.id}=bg.page("${b.requestURI}","${tag.parameters['target']!""}");
   page_${tag.id}.totalPages=${tag.page.totalPages};
   page_${tag.id}.addParams('${b.paramstring}');
   page_${tag.id}.target(null,'${tag.id}');

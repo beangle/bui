@@ -724,7 +724,6 @@ div.search-footer .btn-sm {
   text-align: right;
 }
 
-
 .search-item input[type="text"] {
   width: 6.25rem;
   border: var(--bui-border-width) solid gray;
@@ -897,7 +896,6 @@ fieldset.listset legend {
   font-size: inherit;
   background: url("../images/form-divider.gif") repeat-x scroll left bottom transparent;
 }
-
 
 fieldset.listset>ol {
   margin: 0;
@@ -1511,7 +1509,6 @@ div#topLoadingMessageZone {
   padding-right: 7.5px;
   padding-left: 7.5px;
 }
-
 
 /*
  * 语义色桥接：Bootstrap / AdminLTE 常用面走变量，浅/深只换 :root 即可。
