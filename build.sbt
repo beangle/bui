@@ -24,8 +24,8 @@ description := "The Beangle BUI Library"
 homepage := Some(uri("https://beangle.github.io/bui/index.html"))
 resolvers += Resolver.mavenLocal
 
-val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.2-SNAPSHOT"
-val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.10-SNAPSHOT"
+val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.2"
+val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.10"
 
 lazy val root = (project in file("."))
   .settings(
