@@ -49,6 +49,9 @@
   --bui-grid-row-hover-bg: #fff8d6;
   --bui-grid-row-selected-bg: #eaf7ff;
   --bui-grid-header-bg: #e1ecff;
+  /* 表格单元格内边距：横向值同时决定表头竖线与文字之间的留白 */
+  --bui-grid-cell-pad-y: 3px;
+  --bui-grid-cell-pad-x: 0.375rem;
 }
 
 html {
@@ -299,15 +302,32 @@ a {
 .grid-table td,
 .grid-table th {
   overflow: hidden;
-  padding: 3px 0;
+  padding: var(--bui-grid-cell-pad-y) var(--bui-grid-cell-pad-x);
   border-bottom: var(--bui-border-width) solid var(--bui-grid-border-color);
+}
+
+/* 复选框列保持紧凑：窄列下横向内边距会挤掉复选框 */
+.grid-table td.grid-select,
+.grid-table th.grid-select-top {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* mini 主题表格不套用主表格外观，仅共用单元格内边距变量，两种表格的紧凑程度由同一处控制 */
+table.table.grid-mini > :not(caption) > * > * {
+  padding: var(--bui-grid-cell-pad-y) var(--bui-grid-cell-pad-x);
+}
+
+table.table.grid-mini td.grid-select {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .grid-table th {
   position: relative;
 }
 
-/* 表头单元格间的短竖线（半高，不延伸到表格内容区） */
+/* 表头单元格间的短竖线：落在左右内边距的留白中间，两端圆润，不延伸到表格内容区 */
 .grid-table th::after {
   content: "";
   position: absolute;
@@ -315,7 +335,8 @@ a {
   top: 50%;
   transform: translateY(-50%);
   width: var(--bui-border-width);
-  height: 50%;
+  height: 0.9em;
+  border-radius: 1px;
   background-color: var(--bui-grid-border-color);
 }
 
@@ -382,6 +403,7 @@ a {
 .grid-head-icon {
   background-image: url(../icons/16x16/actions.png);
   display: inline-block;
+  margin-left: 2px;
 }
 
 .grid-head-asc {

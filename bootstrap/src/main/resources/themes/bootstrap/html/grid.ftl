@@ -13,9 +13,9 @@
   <th class="grid-select-top" [#if cln.width??] width="${cln.width}"[/#if]>[@b.submit id="${tag.id}_filter_submit" class="grid-filter-submit" value=""/]</th>
   [#else]
   [#if tag.isFilterable(cln)]
-  <th title="${cln.title}" [#if cln.width??]width="${cln.width}"[/#if] style="padding-left:3px">[#t/]
+  <th title="${cln.title}" [#if cln.width??]width="${cln.width}"[/#if]>[#t/]
   [#if tag.filters[cln.property]??]${tag.filters[cln.property]}[#else][#t/]
-  <div style="margin-right:6px"><input type="text" name="${cln.propertyPath}"  maxlength="100" value="${(Parameters[cln.propertyPath]!)?html}" style="width:100%;"/></div>[#t/]
+  <div><input type="text" name="${cln.propertyPath}"  maxlength="100" value="${(Parameters[cln.propertyPath]!)?html}" style="width:100%;"/></div>[#t/]
   [/#if]
   </th>
   [#else]<th [#if cln.width??]width="${cln.width}"[/#if]></th>[/#if][#t/]
