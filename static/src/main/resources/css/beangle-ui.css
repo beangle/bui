@@ -336,7 +336,6 @@ a {
 }
 
 .grid-body tr {
-  text-align: center;
   text-decoration: none;
   letter-spacing: 0;
 }
@@ -414,10 +413,6 @@ a {
 
 .grid-head select {
   height: 1.4375rem;
-}
-
-.grid-head tr{
-  text-align: center;
 }
 
 .grid-data {}

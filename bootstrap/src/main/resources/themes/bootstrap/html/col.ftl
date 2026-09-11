@@ -1,1 +1,1 @@
-<td${tag.parameterString}>[#if tag.body?length>0]${tag.body}[#elseif tag.property??]${(tag.value?html)!}[/#if]</td>
+<td class="text-${tag.textalign}" ${tag.parameterString}>[#if tag.body?length>0]${tag.body}[#elseif tag.property??]${(tag.value?html)!}[/#if]</td>
