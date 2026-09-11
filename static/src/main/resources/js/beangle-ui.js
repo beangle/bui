@@ -697,14 +697,15 @@
           bg.alert("无法找到元素对应的排序表格！");return;
         }
         var orderByStr=null;
-        if(ele.className=="grid-head-sortable"){
+        // 表头上可能还带有 text-center/text-end 等其他 class，不能用 className 相等来判断
+        if(jQuery(ele).hasClass("grid-head-sortable")){
           if(typeof ele.asc!="undefined"){
             orderByStr=ele.asc;
           }
           else{
             orderByStr=ele.id+" asc";
           }
-        }else if(ele.className=="grid-head-asc"){
+        }else if(jQuery(ele).hasClass("grid-head-asc")){
           if(typeof ele.desc!="undefined"){
             orderByStr=ele.desc;
           }
@@ -742,7 +743,7 @@
             cell=head.cells[i];
             if (i===0){
               jQuery(cell).find(".grid-toggle-all").on("click",bg.ui.grid.toggleAll);
-            }else if(cell.className=="grid-head-sortable" && null!=cell.id){
+            }else if(jQuery(cell).hasClass("grid-head-sortable") && null!=cell.id){
               cell.onclick = columnSort;
               cell.onmouseover=bg.ui.grid.overSortTableHeader;
               cell.onmouseout=bg.ui.grid.outSortTableHeader;
@@ -752,7 +753,7 @@
                 desc=cell.desc;
               }
               if(orderBy.indexOf(desc)!=-1){
-                cell.className="grid-head-desc"
+                jQuery(cell).removeClass("grid-head-sortable grid-head-asc grid-head-desc").addClass("grid-head-desc");
                   cell.innerHTML=cell.innerHTML+'<span class="grid-head-icon action-sort-desc"></span>'
                 continue;
               }
@@ -761,7 +762,7 @@
                 asc = cell.asc;
               }
               if(orderBy==asc){
-                cell.className="grid-head-asc"
+                jQuery(cell).removeClass("grid-head-sortable grid-head-asc grid-head-desc").addClass("grid-head-asc");
                   cell.innerHTML=cell.innerHTML+'<span class="grid-head-icon action-sort-asc"></span>'
                 continue;
               }
