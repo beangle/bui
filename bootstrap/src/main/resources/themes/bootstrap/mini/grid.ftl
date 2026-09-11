@@ -3,7 +3,7 @@
 <thead>
   <tr>
   [#list tag.cols as cln]
-    <th [#if cln.width??] width="${cln.width}"[/#if] class="text-${cln.textalign}">${cln.title}</th>
+    <th [#if cln.width??] width="${cln.width}"[/#if] class="text-${cln.align}">${cln.title}</th>
   [/#list]
   </tr>
 </thead>

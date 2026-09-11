@@ -105,7 +105,7 @@ object Grid {
     var _title: String = _
     var width: String = _
     var row: Row = _
-    var textalign: String = "start"
+    var align: String = "start"
     var sortable: String = _
     var filterable: String = _
     var escape: String = _
@@ -119,7 +119,7 @@ object Grid {
     override def doEnd(writer: Writer, body: String): Boolean = {
       if (context.theme == Themes.Default) {
         try {
-          writer.append("<td").append(s" class='text-${textalign}'").append(parameterString).append(">")
+          writer.append("<td").append(s" class='text-${align}'").append(parameterString).append(">")
           if (Strings.isNotEmpty(body)) {
             writer.append(body)
           } else if (null != property) {
