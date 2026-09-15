@@ -415,6 +415,12 @@ class Select(context: ComponentContext) extends ActionClosingUIBean(context) {
     if multiple != "true" && keys.size > 1 then multiple = "true"
   }
 
+  /**
+   * 已选值，单选时为其 key，多选时为空。与 setValue 构成 value 属性，
+   * 否则设置 value 时会被当作未知参数放入 parameters，模板中也读不到 tag.value。
+   */
+  def getValue: Object = if (keys.size == 1) keys.head else null
+
   def setValue(v: Object): Unit = {
     v match {
       case null => this.values = List.empty
