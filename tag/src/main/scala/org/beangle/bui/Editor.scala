@@ -19,12 +19,13 @@ package org.beangle.bui
 
 import org.beangle.template.api.ComponentContext
 import org.beangle.webmvc.dispatch.ActionUriRender
+import scala.compiletime.uninitialized
 
 class Editor(context: ComponentContext) extends Textarea(context) {
 
   var engine = "kindeditor"
 
-  var uploadJson: String = _
+  var uploadJson: String = uninitialized
 
   override def evaluateParams(): Unit = {
     super.evaluateParams()

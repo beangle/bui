@@ -19,11 +19,12 @@ package org.beangle.bui
 
 import org.beangle.commons.lang.{Objects, Strings}
 import org.beangle.template.api.{ComponentContext,UIBean,ClosingUIBean}
+import scala.compiletime.uninitialized
 
 class Div(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var href: String = _
+  var href: String = uninitialized
 
-  var astarget: String = _
+  var astarget: String = uninitialized
 
   override def evaluateParams(): Unit = {
     if (null == astarget && (null != id || null != href)) astarget = "true"
@@ -38,7 +39,7 @@ class Div(context: ComponentContext) extends ActionClosingUIBean(context) {
 }
 
 class Iframe(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var src: String = _
+  var src: String = uninitialized
 
   override def evaluateParams(): Unit = {
     src = render(src)
@@ -46,8 +47,8 @@ class Iframe(context: ComponentContext) extends ActionClosingUIBean(context) {
 }
 
 class Tab(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var href: String = _
-  var label: String = _
+  var href: String = uninitialized
+  var label: String = uninitialized
 
   override def evaluateParams(): Unit = {
     if (null != href) href = render(href)
@@ -83,7 +84,7 @@ class Card(context: ComponentContext) extends ClosingUIBean(context) {
 class CardHeader(context: ComponentContext) extends ClosingUIBean(context) {
   var closeable: String = "false"
   var minimal: String = "false"
-  var title: String = _
+  var title: String = uninitialized
 
   override def evaluateParams(): Unit = {
     title = getText(title)

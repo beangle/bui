@@ -10,9 +10,9 @@
     <tr>
       <td style="text-align:right;">
        [#if tag.enableLocalFile=="true"]
-       <div class="custom-file" style="text-align:left;width:200px;">
-         <input type="file" class="custom-file-input" id="validatedCustomFile"  name="sign_local_file" title="签名" onchange="esign_${tag.id}.loadFile(event.target.files[0]);">
-         <label class="custom-file-label" for="validatedCustomFile">选择签名图片</label>
+       <div style="text-align:left;width:200px;">
+         <input type="file" class="form-control" id="validatedCustomFile" name="sign_local_file" title="签名" onchange="esign_${tag.id}.loadFile(event.target.files[0]);">
+         <label for="validatedCustomFile">选择签名图片</label>
        </div>
        [/#if]
        [#if tag.remoteHref??]

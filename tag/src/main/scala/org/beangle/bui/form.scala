@@ -25,25 +25,26 @@ import org.beangle.template.api.{ClosingUIBean, ComponentContext, UIBean}
 import java.io.Writer
 import java.text.SimpleDateFormat
 import java.util as ju
+import scala.compiletime.uninitialized
 
 class Form(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var name: String = _
-  var action: String = _
-  var target: String = _
+  var name: String = uninitialized
+  var action: String = uninitialized
+  var target: String = uninitialized
   var method: String = "post"
-  var enctype: String = _
-  var onsubmit: String = _
+  var enctype: String = uninitialized
+  var onsubmit: String = uninitialized
 
   /** Boolean */
-  private var _validate: String = _
+  private var _validate: String = uninitialized
 
-  var title: String = _
+  var title: String = uninitialized
 
   private val elementChecks = new collection.mutable.HashMap[String, StringBuilder]
 
-  private var extraChecks: StringBuilder = _
+  private var extraChecks: StringBuilder = uninitialized
 
-  var scripts: String = _
+  var scripts: String = uninitialized
 
   override def evaluateParams(): Unit = {
     if (null == name && null == id) {
@@ -128,11 +129,11 @@ class Reset(context: ComponentContext) extends UIBean(context) {
 }
 
 class Submit(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var formId: String = _
-  var onsubmit: String = _
-  var action: String = _
-  var value: String = _
-  var target: String = _
+  var formId: String = uninitialized
+  var onsubmit: String = uninitialized
+  var action: String = uninitialized
+  var value: String = uninitialized
+  var target: String = uninitialized
 
   override def evaluateParams(): Unit = {
     generateIdIfEmpty()
@@ -166,9 +167,9 @@ object Radio {
 
 class Radio(context: ComponentContext) extends UIBean(context) {
 
-  var name: String = _
-  var label: String = _
-  var title: String = _
+  var name: String = uninitialized
+  var label: String = uninitialized
+  var title: String = uninitialized
   var value: Object = ""
 
   override def evaluateParams(): Unit = {
@@ -181,12 +182,12 @@ class Radio(context: ComponentContext) extends UIBean(context) {
 }
 
 class Fieldset(context: ComponentContext) extends ClosingUIBean(context) {
-  var title: String = _
+  var title: String = uninitialized
 }
 
 class Field(context: ComponentContext) extends ClosingUIBean(context) {
-  var label: String = _
-  var required: String = _
+  var label: String = uninitialized
+  var required: String = uninitialized
 
   override def evaluateParams(): Unit = {
     label = getText(label)
@@ -194,13 +195,13 @@ class Field(context: ComponentContext) extends ClosingUIBean(context) {
 }
 
 class AbstractTextBean(context: ComponentContext) extends ClosingUIBean(context) {
-  var name: String = _
-  var label: String = _
-  var title: String = _
-  var comment: String = _
-  var required: String = _
+  var name: String = uninitialized
+  var label: String = uninitialized
+  var title: String = uninitialized
+  var comment: String = uninitialized
+  var required: String = uninitialized
   var value: Object = ""
-  var check: String = _
+  var check: String = uninitialized
   var maxlength = "100"
 
   override def evaluateParams(): Unit = {
@@ -224,10 +225,10 @@ class AbstractTextBean(context: ComponentContext) extends ClosingUIBean(context)
 class Textfield(context: ComponentContext) extends AbstractTextBean(context)
 
 class Textarea(context: ComponentContext) extends AbstractTextBean(context) {
-  var cols: String = _
-  var readonly: String = _
-  var rows: String = _
-  var wrap: String = _
+  var cols: String = uninitialized
+  var readonly: String = uninitialized
+  var rows: String = uninitialized
+  var wrap: String = uninitialized
 
   maxlength = "400"
 
@@ -244,16 +245,16 @@ object Date {
 }
 
 class Date(context: ComponentContext) extends UIBean(context) {
-  var name: String = _
-  var label: String = _
-  var title: String = _
-  var comment: String = _
-  var check: String = _
-  var required: String = _
+  var name: String = uninitialized
+  var label: String = uninitialized
+  var title: String = uninitialized
+  var comment: String = uninitialized
+  var check: String = uninitialized
+  var required: String = uninitialized
   var value: Object = ""
   var format = "date"
-  var minDate: String = _
-  var maxDate: String = _
+  var minDate: String = uninitialized
+  var maxDate: String = uninitialized
 
   override def evaluateParams(): Unit = {
     if (null == this.id) generateIdIfEmpty()
@@ -280,12 +281,12 @@ class Date(context: ComponentContext) extends UIBean(context) {
 }
 
 class Checkbox(context: ComponentContext) extends UIBean(context) {
-  var name: String = _
-  var label: String = _
-  var title: String = _
+  var name: String = uninitialized
+  var label: String = uninitialized
+  var title: String = uninitialized
   var value: Any = ""
   var checked = false
-  var required: String = _
+  var required: String = uninitialized
 
   override def evaluateParams(): Unit = {
     if (null == this.id) generateIdIfEmpty()
@@ -304,33 +305,33 @@ class Checkbox(context: ComponentContext) extends UIBean(context) {
 }
 
 class Select(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var name: String = _
-  var items: Object = _
-  var empty: String = _
+  var name: String = uninitialized
+  var items: Object = uninitialized
+  var empty: String = uninitialized
 
   val keys = Collections.newSet[String]
-  var values: Object = _
+  var values: Object = uninitialized
 
-  var keyName: String = _
-  var valueName: String = _
+  var keyName: String = uninitialized
+  var valueName: String = uninitialized
 
-  var label: String = _
-  var title: String = _
+  var label: String = uninitialized
+  var title: String = uninitialized
 
-  var comment: String = _
-  var check: String = _
-  var required: String = _
+  var comment: String = uninitialized
+  var check: String = uninitialized
+  var required: String = uninitialized
 
   /** option text template */
-  var _option: String = _
+  var _option: String = uninitialized
 
-  var href: String = _
+  var href: String = uninitialized
 
-  var multiple: String = _
+  var multiple: String = uninitialized
 
   var chosenMin: String = "30"
 
-  var width: String = _
+  var width: String = uninitialized
 
   override def evaluateParams(): Unit = {
     if (null == keyName) {

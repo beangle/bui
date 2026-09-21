@@ -18,6 +18,7 @@
 package org.beangle.bui
 
 import org.beangle.template.api.ComponentContext
+import scala.compiletime.uninitialized
 
 class Esign(context: ComponentContext) extends AbstractTextBean(context) {
   var lineWidth: String = "5"
@@ -28,7 +29,7 @@ class Esign(context: ComponentContext) extends AbstractTextBean(context) {
   var enableLocalFile: String = "true"
 
   /** 缺省签名的地址 */
-  var remoteHref: String = _
+  var remoteHref: String = uninitialized
 
   override def evaluateParams(): Unit = {
     super.evaluateParams()

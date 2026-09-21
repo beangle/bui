@@ -1239,6 +1239,32 @@
   bg.extend({'ui.tabletree':new TableTree()});
 
   /**
+   * 卡片工具（AdminLTE 3 CardWidget 的轻量替代，不依赖 AdminLTE）：
+   * - data-card-widget="collapse" 折叠/展开所在 .card 的 .card-body 与 .card-footer
+   * - data-card-widget="remove"   移除所在 .card
+   * 事件委托，兼容 ajax/无界子应用动态插入的卡片。
+   */
+  document.addEventListener("click", function (ev) {
+    var btn = ev.target && ev.target.closest ? ev.target.closest("[data-card-widget]") : null;
+    if (!btn || btn.disabled) return;
+    var card = btn.closest(".card");
+    if (!card) return;
+    var widget = btn.getAttribute("data-card-widget");
+    if (widget === "remove") {
+      card.parentNode.removeChild(card);
+    } else if (widget === "collapse") {
+      var collapsed = card.classList.toggle("collapsed-card");
+      var parts = card.querySelectorAll(".card-body, .card-footer");
+      for (var i = 0; i < parts.length; i++) parts[i].style.display = collapsed ? "none" : "";
+      var icon = btn.querySelector("i");
+      if (icon) icon.className = collapsed ? "fas fa-plus" : "fas fa-minus";
+    } else {
+      return;
+    }
+    ev.preventDefault();
+  }, false);
+
+  /**
    * UI 偏好（与门户 ems-shell / @beangle/bui-vue 约定一致）：
    * - localStorage beangle.ui.font-size → small|medium|large → html font-size
    * - localStorage beangle.ui.theme-mode → light|dark → html data-theme / data-bs-theme

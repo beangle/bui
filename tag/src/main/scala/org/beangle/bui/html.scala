@@ -21,6 +21,7 @@ import org.beangle.commons.lang.Strings
 import org.beangle.template.api.{ClosingUIBean, ComponentContext, Themes, UIBean}
 
 import java.io.Writer
+import scala.compiletime.uninitialized
 
 class Head(context: ComponentContext) extends ActionClosingUIBean(context) {
   var loadui = true
@@ -41,9 +42,9 @@ object Anchor {
 }
 
 class Anchor(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var href: String = _
-  var target: String = _
-  var onclick: String = _
+  var href: String = uninitialized
+  var target: String = uninitialized
+  var onclick: String = uninitialized
 
   def reserved: Boolean = Anchor.ReservedTargets.contains(target)
 

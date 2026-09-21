@@ -2,7 +2,7 @@
 <div id="${tag.id}" [#if tag.parameters['slash']??]style="position: fixed;margin: 0px 0px 0px 30%;z-index:999;"[/#if]>
 [#if tag.hasMessages]
   <div class="alert alert-info alert-dismissible compact">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     [#list tag.actionMessages as message]
     <span>${message!}</span>[#if message_has_next]<br/>[/#if]
     [/#list]
@@ -10,7 +10,7 @@
 [/#if]
 [#if tag.hasErrors]
   <div class="alert alert-danger alert-dismissible compact">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     [#list tag.actionErrors as message]
     <span>${message!}</span>[#if message_has_next]<br/>[/#if]
     [/#list]

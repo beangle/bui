@@ -3,9 +3,7 @@
       <div class="modal-content">
         <div class="modal-header" style="padding: 0.5rem 1rem;">
           <h5 class="modal-title">${tag.title!'缺少标题'}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="padding-top: 0px;">
          [#if tag.href??]

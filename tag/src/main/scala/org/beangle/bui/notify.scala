@@ -21,10 +21,11 @@ import org.beangle.commons.lang.Strings
 import org.beangle.template.api.{ComponentContext, UIBean}
 import org.beangle.webmvc.context.ActionContext
 import org.beangle.webmvc.support.MessageSupport
+import scala.compiletime.uninitialized
 
 class Messages(context: ComponentContext) extends UIBean(context) {
-  var actionMessages: List[String] = _
-  var actionErrors: List[String] = _
+  var actionMessages: List[String] = uninitialized
+  var actionErrors: List[String] = uninitialized
 
   var clear = "true"
 
@@ -53,8 +54,8 @@ class Messages(context: ComponentContext) extends UIBean(context) {
 }
 
 class Dialog(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var title: String = _
-  var href: String = _
+  var title: String = uninitialized
+  var href: String = uninitialized
   var modal = "true"
 
   override def evaluateParams(): Unit = {

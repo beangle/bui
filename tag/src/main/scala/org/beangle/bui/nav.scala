@@ -20,8 +20,9 @@ package org.beangle.bui
 import org.beangle.commons.collection.page.Page
 import org.beangle.template.api.ComponentContext
 import org.beangle.template.api.{UIBean,ClosingUIBean}
+import scala.compiletime.uninitialized
 class Toolbar(context: ComponentContext) extends ClosingUIBean(context) {
-  var title: String = _
+  var title: String = uninitialized
 
   override def evaluateParams(): Unit = {
     generateIdIfEmpty()
@@ -30,7 +31,7 @@ class Toolbar(context: ComponentContext) extends ClosingUIBean(context) {
 }
 
 class Navbar(context: ComponentContext) extends ClosingUIBean(context) {
-  var brand: String = _
+  var brand: String = uninitialized
 }
 
 class Nav(context: ComponentContext) extends ClosingUIBean(context) {
@@ -45,9 +46,9 @@ class Nav(context: ComponentContext) extends ClosingUIBean(context) {
 }
 
 class Navitem(context: ComponentContext) extends ActionClosingUIBean(context) {
-  var href: String = _
-  var onclick: String = _
-  var target: String = _
+  var href: String = uninitialized
+  var onclick: String = uninitialized
+  var target: String = uninitialized
   var active = false
 
   override def evaluateParams(): Unit = {
@@ -64,5 +65,5 @@ class Navitem(context: ComponentContext) extends ActionClosingUIBean(context) {
 }
 
 class Pagebar(context: ComponentContext) extends UIBean(context) {
-  var page: Page[_] = _
+  var page: Page[?] = uninitialized
 }

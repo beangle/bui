@@ -29,11 +29,12 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.Temporal
 import java.util as ju
 import scala.jdk.javaapi.CollectionConverters.asScala
+import scala.compiletime.uninitialized
 
 object Grid {
 
   class Filter(context: ComponentContext) extends ClosingUIBean(context) {
-    var property: String = _
+    var property: String = uninitialized
 
     override def doEnd(writer: Writer, body: String): Boolean = {
       val grid = findAncestor(classOf[Grid])
@@ -57,7 +58,7 @@ object Grid {
     val table: Grid = findAncestor(classOf[Grid])
     val var_index: String = table.`var` + "_index"
     var index: Int = -1
-    var curObj: Any = _
+    var curObj: Any = uninitialized
     var innerTr: Option[Boolean] = None
 
     private val iterator: Iterator[Any] = {
@@ -101,14 +102,14 @@ object Grid {
   }
 
   class Col(context: ComponentContext) extends ClosingUIBean(context) {
-    var property: String = _
-    var _title: String = _
-    var width: String = _
-    var row: Row = _
+    var property: String = uninitialized
+    var _title: String = uninitialized
+    var width: String = uninitialized
+    var row: Row = uninitialized
     var align: String = "start"
-    var sortable: String = _
-    var filterable: String = _
-    var escape: String = _
+    var sortable: String = uninitialized
+    var filterable: String = uninitialized
+    var escape: String = uninitialized
 
     override def start(writer: Writer): Boolean = {
       row = findAncestor(classOf[Row])
@@ -202,12 +203,12 @@ object Grid {
     var `type` = "checkbox"
 
     // checkbox or radiobox name
-    var boxname: String = _
+    var boxname: String = uninitialized
 
     /** display or none */
     var display: Boolean = true
 
-    var checked: Boolean = _
+    var checked: Boolean = uninitialized
 
     override def start(writer: Writer): Boolean = {
       if (null == property) this.property = "id"
@@ -253,26 +254,26 @@ class Grid(context: ComponentContext) extends ClosingUIBean(context) {
 
   val cols = new collection.mutable.ListBuffer[Col]
   val colTitles = new collection.mutable.HashSet[Object]
-  var items: Object = _
-  var caption: String = _
-  var `var`: String = _
-  var bar: String = _
+  var items: Object = uninitialized
+  var caption: String = uninitialized
+  var `var`: String = uninitialized
+  var bar: String = uninitialized
   var sortable = "true"
   var filterable = "false"
   var filters = new collection.mutable.HashMap[String, String]
 
   /** 重新载入的时间间隔（以秒为单位） */
-  var refresh: String = _
+  var refresh: String = uninitialized
 
   /** 没有数据时显示的文本 */
-  var emptyMsg: String = _
+  var emptyMsg: String = uninitialized
 
   def hasbar: Boolean = {
-    null != bar || items.isInstanceOf[Page[_]]
+    null != bar || items.isInstanceOf[Page[?]]
   }
 
   def pageable: Boolean = {
-    items.isInstanceOf[Page[_]]
+    items.isInstanceOf[Page[?]]
   }
 
   def notFullPage: Boolean = {

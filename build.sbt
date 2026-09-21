@@ -24,8 +24,9 @@ description := "The Beangle BUI Library"
 homepage := Some(uri("https://beangle.github.io/bui/index.html"))
 resolvers += Resolver.mavenLocal
 
-val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.3"
-val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.12"
+val beangle_commons = "org.beangle.commons" % "beangle-commons" % "6.3.7"
+val beangle_webmvc = "org.beangle.webmvc" % "beangle-webmvc" % "0.15.6"
+val beangle_template = "org.beangle.template" % "beangle-template" % "0.2.14"
 
 lazy val root = (project in file("."))
   .settings(
@@ -39,7 +40,7 @@ lazy val tag = (project in file("tag"))
     name := "beangle-bui-tag",
     common,
     libraryDependencies ++= Seq(logback_classic % "test", scalatest),
-    libraryDependencies ++= Seq(beangle_webmvc, beangle_template),
+    libraryDependencies ++= Seq(beangle_commons, beangle_webmvc, beangle_template),
   )
 
 lazy val bootstrap = (project in file("bootstrap"))

@@ -23,10 +23,11 @@ import org.beangle.commons.lang.{Numbers, Strings}
 import org.beangle.template.api.{ComponentContext, UIBean}
 
 import scala.jdk.javaapi.CollectionConverters.asScala
+import scala.compiletime.uninitialized
 
 class Textfields(context: ComponentContext) extends UIBean(context) {
-  var names: String = _
-  var fields: Array[Textfield] = _
+  var names: String = uninitialized
+  var fields: Array[Textfield] = uninitialized
 
   override def evaluateParams(): Unit = {
     val nameArray = Strings.split(names, ',')
@@ -58,7 +59,7 @@ object Boxes {
     items match {
       case m: collection.Map[_, _] => (m.keys.map(_.toString).toList, m.map(kv => kv._1.toString -> kv._2.toString))
       case jm: java.util.Map[_, _] =>
-        val sm = asScala(jm).asInstanceOf[collection.Map[_, _]]
+        val sm = asScala(jm).asInstanceOf[collection.Map[?, ?]]
         (sm.keys.map(_.toString).toList, sm.map(kv => kv._1.toString -> kv._2.toString))
       case null => (DefaultKeys, DefaultItemMap)
       case s: String =>
@@ -133,13 +134,13 @@ object Boxes {
 }
 
 class Radios(context: ComponentContext) extends UIBean(context) {
-  var name: String = _
-  var label: String = _
-  var items: Object = _
-  var radios: Array[Radio] = _
-  var value: Object = _
-  var comment: String = _
-  var required: String = _
+  var name: String = uninitialized
+  var label: String = uninitialized
+  var items: Object = uninitialized
+  var radios: Array[Radio] = uninitialized
+  var value: Object = uninitialized
+  var comment: String = uninitialized
+  var required: String = uninitialized
   var valueName = "name"
 
   override def evaluateParams(): Unit = {
@@ -171,15 +172,15 @@ class Radios(context: ComponentContext) extends UIBean(context) {
 }
 
 class Checkboxes(context: ComponentContext) extends UIBean(context) {
-  var name: String = _
-  var label: String = _
-  var items: Object = _
-  var checkboxes: Array[Checkbox] = _
-  var values: Object = _
-  var comment: String = _
-  var required: String = _
-  var min: Object = _
-  var max: Object = _
+  var name: String = uninitialized
+  var label: String = uninitialized
+  var items: Object = uninitialized
+  var checkboxes: Array[Checkbox] = uninitialized
+  var values: Object = uninitialized
+  var comment: String = uninitialized
+  var required: String = uninitialized
+  var min: Object = uninitialized
+  var max: Object = uninitialized
   var valueName = "name"
 
   override def evaluateParams(): Unit = {
@@ -235,12 +236,12 @@ class Checkboxes(context: ComponentContext) extends UIBean(context) {
 class Select2(context: ComponentContext) extends UIBean(context) {
   var keyName = "id"
   var valueName = "name"
-  var label: String = _
-  var required: String = _
-  var name1st: String = _
-  var name2nd: String = _
-  var items1st: Object = _
-  var items2nd: Object = _
+  var label: String = uninitialized
+  var required: String = uninitialized
+  var name1st: String = uninitialized
+  var name2nd: String = uninitialized
+  var items1st: Object = uninitialized
+  var items2nd: Object = uninitialized
   var size = "10"
 
   var style = "width:250px;height:200px"
@@ -272,21 +273,21 @@ class Select2(context: ComponentContext) extends UIBean(context) {
 }
 
 class Startend(context: ComponentContext) extends UIBean(context) {
-  var label: String = _
+  var label: String = uninitialized
 
-  var name: String = _
+  var name: String = uninitialized
 
-  var start: Object = _
+  var start: Object = uninitialized
 
-  var end: Object = _
+  var end: Object = uninitialized
 
-  var comment: String = _
+  var comment: String = uninitialized
 
-  var required: String = _
+  var required: String = uninitialized
 
   var format = "yyyy-MM-dd"
 
-  var dates: Array[Date] = _
+  var dates: Array[Date] = uninitialized
 
   override def evaluateParams(): Unit = {
     val nameArray = Strings.split(name, ',')

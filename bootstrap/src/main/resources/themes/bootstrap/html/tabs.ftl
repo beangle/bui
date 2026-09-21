@@ -1,7 +1,7 @@
 [#assign existRemote=false/]
 <ul id="${tag.id}" class="nav nav-tabs nav-tabs-compact" ${tag.parameterString}>
   [#list tag.tabs as tab]
-  <li class="nav-item"><a href="#${tab.id}" class="nav-link" [#if tab.href??]beangle_href="${tab.href}"[#assign existRemote=true/][/#if] data-toggle="tab">${tab.label}</a></li>
+  <li class="nav-item"><a href="#${tab.id}" class="nav-link" [#if tab.href??]beangle_href="${tab.href}"[#assign existRemote=true/][/#if] data-bs-toggle="tab">${tab.label}</a></li>
   [/#list]
 </ul>
 <div id="${tag.id}_content" class="tab-content">
@@ -23,7 +23,13 @@ beangle.require(["bootstrap"],function(){
       [/#if]
     [/#list]
     [/#if]
-    $('#${tag.id} li:eq(${tag.selected}) a').tab('show')
+    var tabs = document.querySelectorAll('#${tag.id} .nav-link');
+    function showTab(el) {
+      if (!el) return;
+      if (window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(el).show();
+      else $(el).tab('show');
+    }
+    showTab(tabs[${tag.selected}])
     $('#${tag.id} a').click(function (e) {
       [#if existRemote]
       var href=e.target.href;
@@ -34,7 +40,7 @@ beangle.require(["bootstrap"],function(){
       }
       [/#if]
       e.preventDefault();
-      $(this).tab('show');
+      showTab(this);
     });
   });
 });

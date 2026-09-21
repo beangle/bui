@@ -274,6 +274,21 @@ html body {
 
 a {
   color: var(--bui-link-color);
+  text-decoration: none;
+}
+
+/* BS5 起 $link-decoration 默认从 none 翻成 underline（a 默认带下划线），
+ * 这里恢复 BS4 的观感：正文链接默认无下划线、悬停才出现。 */
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+/* 组件类链接悬停也不加下划线：BS4 里由各组件自带 hover 复位，
+ * BS5 因为默认值反转把这些复位规则删掉了。 */
+:is(.nav-link, .dropdown-item, .dropdown-toggle, .navbar-brand, .page-link, .page-item,
+    .list-group-item-action, .btn, .badge, .close, .btn-close, .card-title):is(:hover, :focus) {
+  text-decoration: none;
 }
 /* grid */
 .grid {
@@ -741,6 +756,14 @@ div.search-footer .btn-sm {
   text-align: right;
 }
 
+/* BS4 reboot 里的 label{display:inline-block;margin-bottom:.5rem}，BS5 只留下 display，
+ * margin-bottom 改成可选类 .form-label；搜索框里的 label 是裸 <label>，这里补回来。
+ * 注意加在 label 上而不是 .search-item 上：前者的 8px 落在 item 内部（与 BS4 等高的写法），
+ * 后者落在外部，且会波及本来就没有 label 的项（如 <td class="search-item">院系:<select>）。 */
+.search-item > label {
+  margin-bottom: .5rem;
+}
+
 .search-item input[type="text"] {
   width: 6.25rem;
   border: var(--bui-border-width) solid gray;
@@ -960,6 +983,42 @@ fieldset.listset li>select {
   border-radius: .25rem;
   background-color: var(--bui-surface-bg);
   padding: 0rem .375rem;
+}
+
+/* 文件上传：BS5 的 .form-control 把 input[type=file] 设成块级（display:block）、字号 1rem、
+ * 上下内边距 .375rem，于是它比同组 text/select 高一截，还会把紧随其后的“20M以内”提示 label
+ * 挤到下一行（块级 input 独占一行）。这里改回行内块并收窄到 200px、字号继承，
+ * 使 label 回到 input 右侧、整行保持紧凑（不再固定 input 高度，由浏览器按字号自然撑开）。
+ * 注意 file 控件外层还包了 div，所以用后代选择器而非 li>input。 */
+fieldset.listset li input[type="file"] {
+  display: inline-block;
+  width: 200px;
+  border: var(--bui-border-width) solid gray;
+  border-radius: .25rem;
+  background-color: var(--bui-surface-bg);
+  color: var(--bui-text-color);
+  font-size: inherit;
+  line-height: normal;
+  padding: 0rem .375rem;
+}
+
+fieldset.listset li input[type="file"]::file-selector-button {
+  height: 1.375rem;
+  margin: 0rem .375rem 0rem -.25rem;
+  padding: 0rem .375rem;
+  border: 0;
+  border-radius: .1875rem;
+  background-color: var(--bui-surface-2);
+  color: inherit;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+}
+
+fieldset.listset li input[type="file"]:focus {
+  outline: none !important;
+  border-color: var(--bui-focus-ring);
+  box-shadow: 0 0 10px var(--bui-focus-ring);
 }
 
 fieldset.listset li>input:focus {
@@ -1215,9 +1274,9 @@ html .chosen-container-single .chosen-single div {
 .compact.alert {
   padding: 0.5rem 3.5rem 0.5rem 1rem;
 }
-.compact.alert.alert-dismissible .close {
-  padding-top: 0.4rem;
-  padding-bottom: 0.5rem;
+/* BS5 起关闭按钮由 .close 改为 .btn-close（绝对定位图标按钮） */
+.compact.alert.alert-dismissible .btn-close {
+  padding: 0.75rem;
 }
 
 div#topLoadingMessageZone {
@@ -1353,7 +1412,7 @@ div#topLoadingMessageZone {
     margin-top: -0.3rem;
 }
 
-.card-header > .card-tools [data-toggle="tooltip"] {
+.card-header > .card-tools [data-bs-toggle="tooltip"] {
     position: relative;
 }
 
@@ -1519,10 +1578,13 @@ div#topLoadingMessageZone {
   color: var(--bui-text-muted);
 }
 
+/* 列间距：BS4 时代刻意收窄为 7.5px（BS5 默认 0.75rem=12px）。
+ * 注意不要再设 width:100% —— BS4 的列宽由断点类的 max-width 决定，这里写 width 无害；
+ * BS5 改为由断点类的 width 决定（.col-lg-6{flex:0 0 auto;width:50%}），同优先级下后加载的
+ * 主题样式会把它压回 100%，导致所有 .col-* 全部堆叠成整行。BS5 的 width:100% 已由 .row>* 提供。 */
 /**span*/
 .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
   position: relative;
-  width: 100%;
   padding-right: 7.5px;
   padding-left: 7.5px;
 }
@@ -1542,8 +1604,7 @@ html .ajax_container {
 .modal-content,
 .dropdown-menu,
 .popover,
-.list-group-item,
-.jumbotron {
+.list-group-item {
   background-color: var(--bui-surface-bg);
   color: var(--bui-text-color);
   border-color: var(--bui-border-color);
@@ -1575,10 +1636,9 @@ html .ajax_container {
 }
 
 .form-control,
-.custom-select,
+.form-select,
 .form-control-plaintext,
 .input-group-text,
-.custom-file-label,
 select.form-control,
 textarea.form-control {
   background-color: var(--bui-surface-bg);
@@ -1587,10 +1647,30 @@ textarea.form-control {
 }
 
 .form-control:focus,
-.custom-select:focus {
+.form-select:focus {
   background-color: var(--bui-surface-bg);
   color: var(--bui-text-color);
   border-color: var(--primary-color);
+}
+
+/* BS5 移除了 .jumbotron：保留轻量实现，便于旧模板平滑过渡 */
+.jumbotron {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: var(--bui-surface-2);
+  border-radius: 0.5rem;
+}
+
+.jumbotron-fluid {
+  padding-right: 0;
+  padding-left: 0;
+  border-radius: 0;
+}
+
+@media (min-width: 576px) {
+  .jumbotron {
+    padding: 4rem 2rem;
+  }
 }
 
 .form-control::placeholder {
