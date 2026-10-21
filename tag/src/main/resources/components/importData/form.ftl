@@ -7,13 +7,17 @@
 <br/>
 [@b.form action="!importData" theme="list" enctype="multipart/form-data"]
     [@b.field label="文件目录"]
-    <input type="file" name="importFile" id="importFile"/>
+    <input type="file" name="importFile" id="importFile" accept=".xlsx"/>
     [/@]
+    [#-- importModes 由 ImportSupport.importForm 放入，格式为 key:标题,key:标题 --]
+    [#if importModes??]
+    [@b.radios label="导入方式" name="importMode" value=(Parameters["importMode"])!"InsertUpdate" items=importModes comment="覆盖更新会修改已有数据；新导入只接受不存在的数据"/]
+    [/#if]
     [@b.formfoot]
       [@b.reset/]
       [@b.submit value="提交" onsubmit="validateExtendName"/]
       [#list Parameters?keys as key]
-        [#if key!='method']<input type="hidden" name="${key}" value="${Parameters[key]}" />[/#if]
+        [#if key != 'method' && key != 'importMode']<input type="hidden" name="${key}" value="${Parameters[key]}" />[/#if]
       [/#list]
     [/@]
 [/@]
@@ -32,10 +36,9 @@
           alert("请选择文件");
           return false;
         }
-        var index1 = value.indexOf(".xlsx");
-        var index2 = value.indexOf(".xls");
-        if(index1 < 0 || index2 < 0){
-            alert("只能接受以xls或者xlsx结尾的电子表格");
+        var lower = value.toLowerCase();
+        if(!lower.endsWith(".xlsx")){
+            alert("只能接受以xlsx结尾的电子表格");
             return false;
         }
         return true;
