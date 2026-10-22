@@ -290,6 +290,12 @@ a:focus {
     .list-group-item-action, .btn, .badge, .close, .btn-close, .card-title):is(:hover, :focus) {
   text-decoration: none;
 }
+
+/* 同理：BS5 的 .btn-link 默认带下划线（BS4 是 text-decoration:none），恢复 BS4 观感；
+ * 悬停态由上一条规则统一处理，保持无下划线。 */
+.btn-link {
+  text-decoration: none;
+}
 /* grid */
 .grid {
   margin: 0px 0px 0px 0px;
